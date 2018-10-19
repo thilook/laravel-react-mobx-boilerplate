@@ -38,7 +38,9 @@
   },
   "dependencies": {
     "@material-ui/core": "^3.2.2",
+    "@material-ui/icons": "^3.0.1",
     "axios": "^0.18.0",
+    "classnames": "^2.2.6",
     "history": "^4.7.2",
     "jquery": "^3.3.1",
     "lodash": "^4.17.11",
