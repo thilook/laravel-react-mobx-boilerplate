@@ -1,0 +1,9 @@
+{
+  "plugins": ["babel-plugin-transform-decorators-legacy"],
+  "presets": ["react", "stage-2"],
+  "env": {
+    "production": {
+      "plugins": ["transform-remove-console"]
+    }
+  }
+}
