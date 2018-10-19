@@ -37,6 +37,7 @@
     "prettier": "^1.14.3"
   },
   "dependencies": {
+    "@material-ui/core": "^3.2.2",
     "axios": "^0.18.0",
     "history": "^4.7.2",
     "jquery": "^3.3.1",
