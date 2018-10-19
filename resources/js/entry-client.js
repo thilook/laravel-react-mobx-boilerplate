@@ -3,17 +3,18 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router } from 'react-router';
 import { RouterStore, syncHistoryWithStore } from 'mobx-react-router';
-import createBrowserHistory from 'history/createBrowserHistory';
 import { Provider } from 'mobx-react';
-import App from './app';
+import createBrowserHistory from 'history/createBrowserHistory';
 
+import App from './app';
+import customStores from './stores';
 
 require('./bootstrap');
 
 
 const browserHistory = createBrowserHistory();
 const routingStore = new RouterStore();
-const stores = Object.assign({ routing: routingStore}, {});
+const stores = Object.assign({ routing: routingStore}, customStores);
 const history = syncHistoryWithStore(browserHistory, routingStore);
 
 if (document.getElementById('root')) {

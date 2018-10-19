@@ -5,13 +5,15 @@ import { Provider } from 'mobx-react';
 import { RouterStore, syncHistoryWithStore } from 'mobx-react-router';
 import { StaticRouter } from 'react-router-dom';
 import createBrowserHistory from 'history/createBrowserHistory';
+
 import App from './app';
+import customStore from './stores';
 
 require('./bootstrap');
 
 const browserHistory = createBrowserHistory();
 const routingStore = new RouterStore();
-const stores = Object.assign({ routing: routingStore}, {});
+const stores = Object.assign({ routing: routingStore}, customStore);
 const history = syncHistoryWithStore(browserHistory, routingStore);
 
 // Compile an initial state

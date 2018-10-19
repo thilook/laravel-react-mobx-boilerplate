@@ -35,62 +35,63 @@ const axiosApi = axios.create({
   headers,
 });
 
+const preparePromise = ( call, resolve, reject ) =>
+  call
+    .then( response => {
+      console.group(
+        `Request ${response.config.method.toUpperCase()} SUCCESS on [${
+          response.config.url
+        }]:`
+      );
+      console.log("Raw Data", response);
+      console.log("Data", response.data);
+      console.log("HTTP Status", response.status);
+      console.log("Success", response.ok);
+      console.groupEnd();
+      resolve(response.data);
+    })
+    .catch( error => {
+      console.group(
+        `Request ${response.config.method.toUpperCase()} ERROR on [${
+          response.config.url
+        }]:`
+      );
+      console.log("Raw Data", response);
+      console.log("Data", response.data);
+      console.log("HTTP Status", response.status);
+      console.log("Success", response.ok);
+      console.groupEnd();
+      // const error = RequestErrorHelper.translateError(response);
+      reject(error);
+    });
 
-class RequestHelper {
+const requests = {
 
-  preparePromise = ( call, resolve, reject ) =>
-    call
-      .then( response => {
-        console.group(
-          `Request ${response.config.method.toUpperCase()} SUCCESS on [${
-            response.config.url
-          }]:`
-        );
-        console.log("Raw Data", response);
-        console.log("Data", response.data);
-        console.log("HTTP Status", response.status);
-        console.log("Success", response.ok);
-        console.groupEnd();
-        resolve(response.data);
-      })
-      .catch( error => {
-        console.group(
-          `Request ${response.config.method.toUpperCase()} ERROR on [${
-            response.config.url
-          }]:`
-        );
-        console.log("Raw Data", response);
-        console.log("Data", response.data);
-        console.log("HTTP Status", response.status);
-        console.log("Success", response.ok);
-        console.groupEnd();
-        // const error = RequestErrorHelper.translateError(response);
-        reject(error);
-      });
-
-  del = url =>
+  del: url =>
     new Promise((resolve, reject) =>
-      this.preparePromise(axiosApi.delete(url), resolve, reject)
-    );
+      preparePromise(axiosApi.delete(url), resolve, reject)
+    ),
 
-  get = url =>
+  get: url =>
     new Promise((resolve, reject) =>
-      this.preparePromise(axiosApi.get(url), resolve, reject)
-    );
+      preparePromise(axiosApi.get(url), resolve, reject)
+    ),
 
-  post = (url, data) =>
+  post: (url, data) =>
     new Promise((resolve, reject) =>
-      this.preparePromise(axiosApi.post(url, data), resolve, reject)
-    );
+      preparePromise(axiosApi.post(url, data), resolve, reject)
+    ),
 
-  put = (url, data) =>
+  put: (url, data) =>
     new Promise((resolve, reject) =>
-      this.preparePromise(axiosApi.put(url, data), resolve, reject)
-    );
+      preparePromise(axiosApi.put(url, data), resolve, reject)
+    ),
+};
 
-  login = (email, password) =>
+const auth = {
+  login: (email, password) =>
     new Promise((resolve, reject) =>
-      this.preparePromise(axiosAuth.post(
+      preparePromise(axiosAuth.post(
         "oauth/token", {
           grant_type: "password",
           client_id: WEB_CLIENT_ID,
@@ -101,6 +102,11 @@ class RequestHelper {
         }),
       resolve,
       reject
-      ));
+      )),
 
-}
+  getCurrentUser: () => requests.get('/user'),
+
+};
+
+export default { auth, requests };
+
