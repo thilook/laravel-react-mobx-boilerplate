@@ -2,7 +2,7 @@ import React from "react";
 import {Redirect, Route} from "react-router-dom";
 
 // Import Pages
-
+import LoginPage from './Login';
 
 // Import Stores
 import UserStore from '../stores/UserStore';
@@ -36,7 +36,7 @@ const protectedRoutes = () => (
 
 const publicRoutes = () => (
   [
-
+    <Route key={0} exact path="/" component={LoginPage}/>,
   ]
 );
 

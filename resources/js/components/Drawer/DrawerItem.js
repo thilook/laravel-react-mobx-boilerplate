@@ -17,9 +17,7 @@ import ExpandMore from "@material-ui/icons/ExpandMore";
 @inject('drawerStore', 'routing')
 @observer
 class DrawerItem extends Component {
-  componentDidMount() {
-    console.log('props', this.props);
-  }
+
 
   render() {
     const { classes, drawerStore, isSub, item, routing } = this.props;

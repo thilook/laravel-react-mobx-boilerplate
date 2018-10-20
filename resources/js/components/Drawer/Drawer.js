@@ -25,11 +25,6 @@ import styles from './styles';
 @inject('drawerStore', 'routing')
 @observer
 class CustomDrawer extends  Component {
-  componentDidMount(){
-    const { drawerStore } = this.props;
-    console.log('drawer', drawerStore.collapsableItems);
-  }
-
   renderChevron() {
     const { drawerStore } = this.props;
     if (drawerStore.isOpen) {
