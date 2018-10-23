@@ -44,7 +44,7 @@ class AuthStore {
       this.values[option] = '';
       return null;
     })
-  }
+  };
 
   @action login() {
     this.inProgress = true;
@@ -54,6 +54,13 @@ class AuthStore {
         this.errors.request = err.response && err.response.body && err.response.body.errors;
       }))
       .finally(action(() => { this.inProgress = false; }));
+  }
+
+  @action logout() {
+    this.resetValues();
+    commonStore.setToken(undefined);
+    userStore.forgetUser();
+    return Promise.resolve();
   }
 
 

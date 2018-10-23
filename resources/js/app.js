@@ -1,9 +1,10 @@
+
 import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
 import { withRouter } from 'react-router-dom';
 
 // Import components
-import { Drawer, Loading } from './components';
+import { AppBar, Drawer, Loading } from './components';
 
 // Import Routes
 import { protectedRoutes, publicRoutes } from "./pages/routes";
@@ -33,6 +34,7 @@ class App extends Component {
     if (userStore.currentUser) {
       return (
         <section>
+          <AppBar />
           <Drawer />
           {protectedRoutes()}
         </section>
