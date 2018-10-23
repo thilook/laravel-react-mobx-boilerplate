@@ -8,7 +8,6 @@ const styles = theme => ({
   btnForget: {
     padding: 0,
     textTransform: 'none',
-    marginLeft: 8,
   },
   control: {
     padding: theme.spacing.unit * 2,

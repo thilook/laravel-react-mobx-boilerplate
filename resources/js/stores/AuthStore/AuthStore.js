@@ -1,4 +1,4 @@
-import { observable, action } from 'mobx';
+import { action, observable } from 'mobx';
 import * as yup from 'yup';
 
 // Import Helpers
@@ -13,6 +13,12 @@ const userStore = new UserStore();
 
 class AuthStore {
   @observable inProgress = false;
+
+  @observable errors = {
+    email: false,
+    password: false,
+    request: undefined,
+  };
 
   @observable values = {
     email: '',
@@ -38,6 +44,17 @@ class AuthStore {
       this.values[option] = '';
       return null;
     })
+  }
+
+  @action login() {
+    this.inProgress = true;
+    return RequestHelper.auth.login(this.values.email, this.values.password)
+      .then ( res => commonStore.setToken(res.access_token))
+      .then(() => userStore.pullUser())
+      .catch(action((err) => {
+        this.errors.request = err.response && err.response.body && err.response.body.errors;
+      }))
+      .finally(action(() => { this.inProgress = false; }));
   }
 
 

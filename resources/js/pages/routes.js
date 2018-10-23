@@ -2,6 +2,7 @@ import React from "react";
 import {Redirect, Route} from "react-router-dom";
 
 // Import Pages
+import HomePage from './Home';
 import LoginPage from './Login';
 
 // Import Stores
@@ -30,7 +31,7 @@ const PrivateRoute = ({component: Component, isAuth, ...rest}) => (
 
 const protectedRoutes = () => (
   [
-
+    <PrivateRoute key={0} exact path="/" component={HomePage}/>,
   ]
 );
 

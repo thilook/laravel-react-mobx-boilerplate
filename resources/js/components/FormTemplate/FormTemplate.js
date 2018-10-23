@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import PropTypes from 'prop-types';
 
-import {FormControl, FormHelperText, Input, InputLabel} from "@material-ui/core";
 import TextField from './TextField';
 
 @observer
@@ -29,10 +28,11 @@ class FormTemplate extends Component {
   }
 
   render() {
-    const { formStore } = this.props;
+    const { children, formStore } = this.props;
     return(
       <form>
         {Object.keys(formStore.formInfo).map( item => this.selectFieldType(item))}
+        {children}
       </form>
     );
   }

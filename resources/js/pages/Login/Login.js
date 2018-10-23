@@ -2,13 +2,7 @@ import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
 import {
   Button,
-  FormControl,
-  FormHelperText,
   Grid,
-  IconButton,
-  Input,
-  InputAdornment,
-  InputLabel,
   LinearProgress,
   Paper,
   Typography,
@@ -21,9 +15,15 @@ import { FormTemplate, IfComponent } from '../../components';
 // Import Styles
 import styles from './styles';
 
-@inject('authStore')
+@inject('authStore', 'routing', 'userStore')
 @observer
 class Login extends Component {
+
+  handleSubmitForm = e => {
+    const { authStore, routing, userStore } = this.props;
+    e.preventDefault();
+    authStore.login().then(() => routing.replace("/"));
+  };
 
   render() {
     const { authStore, classes } = this.props;
@@ -67,7 +67,41 @@ class Login extends Component {
                       {process.env.MIX_APP_NAME}
                     </Typography>
                   </Grid>
-                  <FormTemplate formStore={authStore}/>
+                  <FormTemplate formStore={authStore}>
+                    <Grid container>
+                      <Grid item xs={6} className={classes.alignLeft}>
+                        <Button
+                          size="small"
+                          color="primary"
+                          variant="text"
+                          disableFocusRipple
+                          disableRipple
+                          className={
+                            classes.btnForget
+                          }
+                        >
+                          Esqueceu a senha?
+                        </Button>
+                      </Grid>
+                      <Grid item xs={6} className={classes.alignRight}>
+                        <Button
+                          onClick={this.handleSubmitForm}
+                          variant="contained"
+                          color="primary"
+                          type="submit"
+                          style={{
+                            textTransform:
+                              "none"
+                          }}
+                          disabled={
+                            authStore.inProgress
+                          }
+                        >
+                          Entrar
+                        </Button>
+                      </Grid>
+                    </Grid>
+                  </FormTemplate>
                 </Grid>
               </Paper>
             </Grid>

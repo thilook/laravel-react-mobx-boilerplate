@@ -11,10 +11,6 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Route::pattern('url', '.*');
 
 Route::get('/{url?}', function () {

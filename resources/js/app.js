@@ -9,11 +9,21 @@ import { Drawer } from './components';
 // Import Routes
 import { protectedRoutes, publicRoutes } from "./pages/routes";
 
-
+@inject('userStore')
 @observer
 class App extends Component {
 
-  render(){
+  render() {
+    const { userStore } = this.props;
+    console.log('currentStore', userStore.currentUser);
+    if (userStore.currentUser){
+      return (
+        <section>
+          <Drawer />
+          {protectedRoutes()}
+        </section>
+      );
+    }
     return (
       <section>
         {publicRoutes()}

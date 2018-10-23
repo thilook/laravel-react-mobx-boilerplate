@@ -24,6 +24,7 @@ class RouteServiceProvider extends ServiceProvider
     public function boot()
     {
         //
+        Route::pattern('url', '.*');
 
         parent::boot();
     }
@@ -65,6 +66,7 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function mapApiRoutes()
     {
+
         Route::prefix('api')
             ->middleware('api')
             ->as('api.')
