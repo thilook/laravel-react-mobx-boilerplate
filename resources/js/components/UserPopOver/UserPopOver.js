@@ -30,11 +30,14 @@ class UserPopOver extends Component {
       this.popIsOpen = !this.popIsOpen;
     };
 
-    handleLogout = () =>
-      this.props.authStore.logout().then(() => {
-        this.props.userStore.forgetUser();
-        this.props.routing.push("/");
+    handleLogout = () => {
+      const { authStore, routing, userStore } = this.props;
+      authStore.logout().then(() => {
+        userStore.forgetUser();
+        routing.push("/");
       });
+    };
+
 
     render() {
       const { classes, userStore } = this.props;
@@ -42,7 +45,6 @@ class UserPopOver extends Component {
       return (
         <Grid container direction="row" justify="flex-end">
           <Typography
-            className={classes.marginAppBar}
             variant="subtitle1"
             color="inherit"
           >
