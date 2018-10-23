@@ -22,7 +22,10 @@ class Login extends Component {
   handleSubmitForm = e => {
     const { authStore, routing, userStore } = this.props;
     e.preventDefault();
-    authStore.login().then(() => routing.replace("/"));
+    authStore.login().then(() => {
+      userStore.pullUser()
+        .then(() => routing.replace("/"))
+    });
   };
 
   render() {

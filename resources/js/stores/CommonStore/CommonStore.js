@@ -1,4 +1,4 @@
-import { observable, action, reaction } from 'mobx';
+import { action, computed, observable, reaction } from 'mobx';
 
 // Import Helpers
 import { StorageHelper } from '../../helpers';
@@ -31,7 +31,7 @@ class CommonStore {
     this.appLoaded = true;
   }
 
-  @action getToken(){
+  @computed get getToken(){
     return this.token;
   }
 }

@@ -1,33 +1,22 @@
-import React from "react";
-import {Redirect, Route} from "react-router-dom";
+import React, { Component } from "react";
+import { Redirect, Route } from "react-router-dom";
+import { inject, observer } from 'mobx-react';
 
 // Import Pages
 import HomePage from './Home';
 import LoginPage from './Login';
 
-// Import Stores
-import UserStore from '../stores/UserStore';
 
-const userStore = new UserStore();
+@inject('userStore', 'commonStore')
+@observer
+class PrivateRoute extends Component {
 
-const PrivateRoute = ({component: Component, isAuth, ...rest}) => (
-  <Route
-    {...rest}
-    render={props => {
-      if (userStore.currentUser) {
-        return <Component {...props} />;
-      }
-      return (
-        <Redirect
-          to={{
-            pathname: "/",
-            state: {from: props.location}
-          }}
-        />
-      );
-    }}
-  />
-);
+  render() {
+    const { userStore, ...restProps } = this.props;
+    if (userStore.currentUser) return <Route {...restProps} />;
+    return <Redirect to="/" />;
+  }
+}
 
 const protectedRoutes = () => (
   [
@@ -41,4 +30,4 @@ const publicRoutes = () => (
   ]
 );
 
-export {protectedRoutes, publicRoutes};
+export { protectedRoutes, publicRoutes };

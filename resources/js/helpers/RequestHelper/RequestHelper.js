@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { create } from 'apisauce'
 
 import StorageHelper from '../StorageHelper';
@@ -90,7 +89,7 @@ const requests = {
 
   get: url =>
     new Promise((resolve, reject) =>
-      preparePromise(axiosApi.get(url), resolve, reject)
+      preparePromise(axiosApi.get(url, {} , {headers: {Authorization: `Bearer ${StorageHelper.localGetItem('token')}`}}), resolve, reject)
     ),
 
   post: (url, data) =>

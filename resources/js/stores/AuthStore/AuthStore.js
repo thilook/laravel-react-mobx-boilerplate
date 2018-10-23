@@ -49,8 +49,7 @@ class AuthStore {
   @action login() {
     this.inProgress = true;
     return RequestHelper.auth.login(this.values.email, this.values.password)
-      .then ( res => commonStore.setToken(res.access_token))
-      .then(() => userStore.pullUser())
+      .then(res => commonStore.setToken(res.access_token))
       .catch(action((err) => {
         this.errors.request = err.response && err.response.body && err.response.body.errors;
       }))

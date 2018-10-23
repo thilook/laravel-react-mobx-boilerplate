@@ -1,22 +1,36 @@
 import React, { Component } from 'react';
-import {  toJS } from 'mobx';
 import { inject, observer } from 'mobx-react';
-
+import { withRouter } from 'react-router-dom';
 
 // Import components
-import { Drawer } from './components';
+import { Drawer, Loading } from './components';
 
 // Import Routes
 import { protectedRoutes, publicRoutes } from "./pages/routes";
 
-@inject('userStore')
+
+@inject('commonStore', 'userStore')
 @observer
 class App extends Component {
 
+  componentDidMount() {
+    const { commonStore, userStore } = this.props;
+    if (commonStore.getToken) {
+      userStore.pullUser()
+        .finally(() => commonStore.setAppLoaded());
+    } else {
+      commonStore.setAppLoaded();
+    }
+  }
+
   render() {
-    const { userStore } = this.props;
-    console.log('currentStore', userStore.currentUser);
-    if (userStore.currentUser){
+    const { commonStore, userStore } = this.props;
+
+    if (!commonStore.appLoaded) {
+      return <Loading/>;
+    }
+
+    if (userStore.currentUser) {
       return (
         <section>
           <Drawer />
@@ -32,4 +46,5 @@ class App extends Component {
   }
 }
 
-export default App;
+const AppRouter = withRouter(App);
+export default AppRouter;
