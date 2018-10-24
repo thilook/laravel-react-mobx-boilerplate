@@ -11,6 +11,7 @@ import { AppBar, Drawer, Loading } from './components';
 // Import Routes
 import { protectedRoutes, publicRoutes } from './pages/routes';
 
+// TODO separate theme settings
 // Theme Settings
 const theme = createMuiTheme({
   palette: {
