@@ -29,6 +29,7 @@
       "notFound": "Não encontrado"
     },
     "forms": {
+      "add": "Adicionar",
       "cancel": "Cancelar",
       "continue": "Para continuar em",
       "darkTheme": "Tema escuro",
@@ -36,12 +37,17 @@
       "forgetPassword": "Esqueceu a senha?",
       "logIn": "Entrar",
       "logOut": "Sair",
-      "save": "Salvar"
+      "save": "Salvar",
+      "selectedItems": "Itens Selecionados",
+      "search": "Pesquisar"
     },
     "formValidation": {
       "required": "Este campo é obrigatório",
       "email": "Por favor verifique seu email",
       "password": "Por favor verifique seu password"
+    },
+    "titles": {
+      "permission": "Permissão"
     }
   }
 }

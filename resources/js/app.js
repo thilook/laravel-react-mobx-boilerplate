@@ -3,13 +3,19 @@ import { inject, observer } from 'mobx-react';
 import { withRouter } from 'react-router-dom';
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
 import { compose } from 'recompose';
+import classNames from 'classnames';
 import { translate } from 'react-i18next';
+
+import { withStyles } from '@material-ui/core';
 
 // Import components
 import { AppBar, Drawer, Loading } from './components';
 
 // Import Routes
 import { protectedRoutes, publicRoutes } from './pages/routes';
+
+// Import styles
+import styles from './styles';
 
 // TODO separate theme settings
 // Theme Settings
@@ -49,7 +55,7 @@ const darkTheme = createMuiTheme({
   // },
 });
 
-@inject('commonStore', 'uiStore', 'userStore')
+@inject('commonStore', 'drawerStore', 'uiStore', 'userStore')
 @observer
 class App extends Component {
   componentDidMount() {
@@ -63,7 +69,13 @@ class App extends Component {
   }
 
   render() {
-    const { commonStore, uiStore, userStore } = this.props;
+    const {
+      classes,
+      commonStore,
+      drawerStore,
+      uiStore,
+      userStore,
+    } = this.props;
 
     if (!commonStore.appLoaded) {
       return <Loading />;
@@ -75,7 +87,14 @@ class App extends Component {
           <section>
             <AppBar />
             <Drawer />
-            {protectedRoutes()}
+            <main
+              className={classNames(classes.content, classes['content-left'], {
+                [classes.contentShift]: drawerStore.isOpen,
+                [classes['contentShift-left']]: drawerStore.isOpen,
+              })}
+            >
+              {protectedRoutes()}
+            </main>
           </section>
         </MuiThemeProvider>
       );
@@ -85,4 +104,7 @@ class App extends Component {
 }
 
 const AppRouter = withRouter(App);
-export default compose(translate('common'))(AppRouter);
+export default compose(
+  translate('common'),
+  withStyles(styles)
+)(AppRouter);
