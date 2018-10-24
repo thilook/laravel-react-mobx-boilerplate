@@ -8,73 +8,66 @@ import {
   ListItemIcon,
   ListItemText,
   Tooltip,
-} from "@material-ui/core";
+} from '@material-ui/core';
 
 // Import Icons
-import ExpandLess from "@material-ui/icons/ExpandLess";
-import ExpandMore from "@material-ui/icons/ExpandMore";
+import ExpandLess from '@material-ui/icons/ExpandLess';
+import ExpandMore from '@material-ui/icons/ExpandMore';
 
+// TODO add prop-types
 @inject('drawerStore', 'routing')
 @observer
 class DrawerItem extends Component {
-
-
   render() {
     const { classes, drawerStore, isSub, item, routing } = this.props;
     if (item.hasSublist) {
-      return(
+      return (
         <section>
           <Tooltip title={item.label} placement="right">
-            <ListItem
-              button
-              onClick={() => drawerStore.collapse(item.id)}
-            >
-              <ListItemIcon>
-                {item.icon}
-              </ListItemIcon>
+            <ListItem button onClick={() => drawerStore.collapse(item.id)}>
+              <ListItemIcon>{item.icon}</ListItemIcon>
               <ListItemText
                 inset
                 primary={item.label}
-                primaryTypographyProps={{ variant: "subtitle1" }}
+                primaryTypographyProps={{ variant: 'subtitle1' }}
               />
-              {item.isOpen ? (
-                <ExpandLess />
-              ) : (
-                <ExpandMore />
-              )}
+              {item.isOpen ? <ExpandLess /> : <ExpandMore />}
             </ListItem>
           </Tooltip>
-          <Divider/>
+          <Divider />
           <Collapse in={item.isOpen}>
             <List component="div" disablePadding>
-              {item.subList.map( subItem => (
-                <DrawerItem key={subItem.id} item={subItem} isSub classes={classes} />
+              {item.subList.map(subItem => (
+                <DrawerItem
+                  key={subItem.id}
+                  item={subItem}
+                  isSub
+                  classes={classes}
+                />
               ))}
             </List>
           </Collapse>
-          <Divider/>
+          <Divider />
         </section>
       );
     }
 
-    return(
+    return (
       <section>
         <Tooltip title={item.label} placement="right">
           <ListItem
             button
-            className={isSub? classes.nested : ""}
-            onClick={() => routing.push(item.routing) }
+            className={isSub ? classes.nested : ''}
+            onClick={() => routing.push(item.routing)}
           >
-            <ListItemIcon>
-              {item.icon}
-            </ListItemIcon>
+            <ListItemIcon>{item.icon}</ListItemIcon>
             <ListItemText
               primary={item.label}
-              primaryTypographyProps={{ variant: "subtitle1" }}
+              primaryTypographyProps={{ variant: 'subtitle1' }}
             />
           </ListItem>
         </Tooltip>
-        <Divider/>
+        <Divider />
       </section>
     );
   }

@@ -17,6 +17,7 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff';
 // Import Component
 import IfComponent from '../IfComponent';
 
+// TODO add prop-types
 @observer
 class Textitem extends Component {
   @observable
