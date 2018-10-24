@@ -25,17 +25,19 @@ class Login extends Component {
     e.preventDefault();
     authStore
       .login()
-      .then(() => {
-        userStore
-          .pullUser()
-          .then(() => routing.replace('/'))
-          .catch(err => console.log('errPullUser', err));
+      .then(res => {
+        if (!res) {
+          userStore
+            .pullUser()
+            .then(() => routing.replace('/'))
+            .catch(err => console.log('errPullUser', err));
+        }
       })
       .catch(err => console.log('erroLogin', err));
   };
 
   render() {
-    const { authStore, classes, t, uiStore } = this.props;
+    const { authStore, classes, t } = this.props;
     return (
       <Grid container className={classes.root}>
         <Grid item xs={12}>

@@ -89,7 +89,6 @@ class AuthStore {
           )
       )
       .catch(err => {
-        console.log('erer', err);
         err.inner.map(item => {
           this.formInfo[item.params.path].error = item.message;
         });
