@@ -19,8 +19,8 @@ import IfComponent from '../IfComponent';
 
 @observer
 class Textitem extends Component {
-
-  @observable variant = "text";
+  @observable
+  variant = 'text';
 
   constructor(props) {
     super(props);
@@ -40,55 +40,45 @@ class Textitem extends Component {
     if (this.variant === 'password') {
       this.variant = 'text';
     } else {
-      this.variant = 'password'
+      this.variant = 'password';
     }
   };
 
-  render(){
+  render() {
     const { item, fieldName, formStore } = this.props;
-    return(
+    return (
       <FormControl fullWidth>
         <InputLabel htmlFor="role">
-          {`${item.label} ${
-            item.required ? "*" : ""
-          }`}
+          {`${item.label} ${item.required ? '*' : ''}`}
         </InputLabel>
         <Input
           id={fieldName}
-          disabled={ item.disabled || false }
-          error={item.error}
+          disabled={item.disabled || false}
+          error={item.error ? true : false}
           type={this.variant}
           value={formStore.values[fieldName] || ''}
           multiline={item.multiline || false}
           rows={item.multiline ? 4 : 1}
           onChange={this.handleValueChange}
           endAdornment={
-            <IfComponent condition={item.variant ==='password'}>
+            <IfComponent condition={item.variant === 'password'}>
               <InputAdornment position="end">
                 <IconButton
                   aria-label="Toggle password visibility"
                   onClick={this.showPassword}
-                  onMouseDown={
-                    this
-                      .handleMouseDownPassword
-                  }
+                  onMouseDown={this.handleMouseDownPassword}
                 >
-                  {this
-                    .variant !== 'password' ? (
-                      <VisibilityOff />
-                    ) : (
-                      <Visibility />
-                    )}
+                  {this.variant !== 'password' ? (
+                    <VisibilityOff />
+                  ) : (
+                    <Visibility />
+                  )}
                 </IconButton>
               </InputAdornment>
             </IfComponent>
           }
         />
-        <FormHelperText id="role-error-text">
-          {item.error
-            ? `Please revise the ${item.label.toLowerCase()} item.`
-            : null}
-        </FormHelperText>
+        <FormHelperText id="role-error-text">{item.error}</FormHelperText>
       </FormControl>
     );
   }

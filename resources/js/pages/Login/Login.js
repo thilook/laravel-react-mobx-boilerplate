@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
+import { compose } from 'recompose';
 import {
   Button,
   Grid,
   LinearProgress,
   Paper,
   Typography,
-  withStyles
-} from "@material-ui/core";
+  withStyles,
+} from '@material-ui/core';
+import { translate } from 'react-i18next';
 
 // Import Custom Components
 import { FormTemplate, IfComponent } from '../../components';
@@ -15,21 +17,25 @@ import { FormTemplate, IfComponent } from '../../components';
 // Import Styles
 import styles from './styles';
 
-@inject('authStore', 'routing', 'userStore')
+@inject('authStore', 'routing', 'uiStore', 'userStore')
 @observer
 class Login extends Component {
-
   handleSubmitForm = e => {
     const { authStore, routing, userStore } = this.props;
     e.preventDefault();
-    authStore.login().then(() => {
-      userStore.pullUser()
-        .then(() => routing.replace("/"))
-    });
+    authStore
+      .login()
+      .then(() => {
+        userStore
+          .pullUser()
+          .then(() => routing.replace('/'))
+          .catch(err => console.log('errPullUser', err));
+      })
+      .catch(err => console.log('erroLogin', err));
   };
 
   render() {
-    const { authStore, classes } = this.props;
+    const { authStore, classes, t, uiStore } = this.props;
     return (
       <Grid container className={classes.root}>
         <Grid item xs={12}>
@@ -45,7 +51,7 @@ class Login extends Component {
               <IfComponent condition={authStore.inProgress}>
                 <LinearProgress />
               </IfComponent>
-              <Paper className={classes.paper} elevation={4} >
+              <Paper className={classes.paper} elevation={4}>
                 <Grid
                   container
                   direction="column"
@@ -59,15 +65,14 @@ class Login extends Component {
                       width={150}
                     />
                   </Grid>
-                  <Grid item style={{ textAlign: "center" }}>
+                  <Grid item style={{ textAlign: 'center' }}>
                     <Typography variant="h5">
-                      Entrar
+                      {t('common:forms.enter')}
                     </Typography>
                   </Grid>
                   <Grid item>
                     <Typography variant="subtitle1">
-                      Para continuar em{" "}
-                      {process.env.MIX_APP_NAME}
+                      {t('common:forms.continue')} {process.env.MIX_APP_NAME}
                     </Typography>
                   </Grid>
                   <FormTemplate formStore={authStore}>
@@ -79,11 +84,9 @@ class Login extends Component {
                           variant="text"
                           disableFocusRipple
                           disableRipple
-                          className={
-                            classes.btnForget
-                          }
+                          className={classes.btnForget}
                         >
-                          Esqueceu a senha?
+                          {t('common:forms.forgetPassword')}
                         </Button>
                       </Grid>
                       <Grid item xs={6} className={classes.alignRight}>
@@ -93,14 +96,11 @@ class Login extends Component {
                           color="primary"
                           type="submit"
                           style={{
-                            textTransform:
-                              "none"
+                            textTransform: 'none',
                           }}
-                          disabled={
-                            authStore.inProgress
-                          }
+                          disabled={authStore.inProgress}
                         >
-                          Entrar
+                          {t('common:forms.logIn')}
                         </Button>
                       </Grid>
                     </Grid>
@@ -116,4 +116,7 @@ class Login extends Component {
   }
 }
 
-export default withStyles(styles) (Login);
+export default compose(
+  withStyles(styles),
+  translate('common')
+)(Login);

@@ -1,0 +1,47 @@
+{
+  "home": {
+    "headerTitle": "Home header",
+    "title": "Welcome Message",
+    "introduction": "This text comes from i18next and is provided in english."
+  },
+  "page2": {
+    "headerTitle": "Page 2",
+    "title": "Title page 2",
+    "introduction": "This text on page two."
+  },
+  "common": {
+    "language": "English",
+    "currentLanguage": "The current language is {{lng}}",
+    "actions": {
+      "toggleToEnglish": "English",
+      "toggleToPortuguese": "Português",
+      "goToPageLaunchScreen": "Open launch screen",
+      "goToPage2": "Open page 2",
+      "fetchData": "Fetch API Data"
+    },
+    "errors": {
+      "unauthorized": "Login needed",
+      "unknown": "Something went wrong",
+      "duplication": "Duplicated entry",
+      "unprocessableEntity": "Incorrect value",
+      "networkError": "Please check your internet connection",
+      "badRequest": "The request could not be understood by the server.",
+      "notFound": "Not found"
+    },
+    "forms": {
+      "cancel": "Cancel",
+      "continue": "To continue in",
+      "darkTheme": "Dark theme",
+      "enter": "Enter",
+      "forgetPassword": "Forget password?",
+      "logIn": "Login",
+      "logOut": "Logout",
+      "save": "Save"
+    },
+    "formValidation": {
+      "required": "This field is required",
+      "email": "Please verify if this is a valid email",
+      "password": "Please verify your password"
+    }
+  }
+}
