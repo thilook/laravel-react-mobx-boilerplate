@@ -20,12 +20,13 @@ import AddIcon from '@material-ui/icons/Add';
 import { IfComponent, Loading } from '..';
 
 // Import Table Components
+import TableContent from './TableContent';
+import TableFooter from './TableFooter';
 import TableHeader from './TableHeader';
 import TableToolbar from './TableToolbar';
 
 // Import Style
 import styles from './styles';
-import TableContent from './TableContent';
 
 @inject('routing', 'tableStore')
 @observer
@@ -80,6 +81,7 @@ class TableTemplate extends Component {
             <Table>
               <TableHeader {...this.props} />
               <TableContent {...this.props} />
+              <TableFooter {...this.props} />
             </Table>
           </Paper>
         </Grid>

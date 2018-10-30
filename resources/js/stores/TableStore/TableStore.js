@@ -86,7 +86,8 @@ class TableStore {
 
   // Handle page change
   @action
-  handleChangePage(isNext, isLast = false) {
+  handleChangePage = (isNext, isLast = false) => {
+    console.log('change Page');
     if (typeof isNext !== 'boolean') {
       this.page = isNext;
     } else if (isNext) {
@@ -102,7 +103,7 @@ class TableStore {
     }
     this.min = this.page * this.rowsPerPage - 10;
     this.max = this.page * this.rowsPerPage - 1;
-  }
+  };
 }
 
 export default TableStore;

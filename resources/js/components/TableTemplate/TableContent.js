@@ -20,44 +20,46 @@ class TableContent extends Component {
     }
     return (
       <TableBody>
-        {_.slice(store.orderedItems, this.min, this.max).map(row => (
-          <TableRow
-            hover
-            onClick={event => tableStore.handleClick(event, row)}
-            role={!disableActions ? '' : 'checkbox'}
-            aria-checked={_.includes(tableStore.selectedRows, row)}
-            tabIndex={-1}
-            key={row.id}
-            selected={_.includes(tableStore.selectedRows, row)}
-            className={classes.tableRow}
-          >
-            <TableCell padding="checkbox">
-              <Checkbox checked={_.includes(tableStore.selectedRows, row)} />
-            </TableCell>
-            {Object.keys(store.fields).map(col => {
-              if (store.fields[col].tableVisible === false) {
-                return null;
-              }
-              if (
-                store.fields[col].type === 'model' ||
-                store.fields[col].type === 'modelAutoComplete'
-              ) {
+        {_.slice(store.orderedItems, tableStore.min, tableStore.max).map(
+          row => (
+            <TableRow
+              hover
+              onClick={event => tableStore.handleClick(event, row)}
+              role={!disableActions ? '' : 'checkbox'}
+              aria-checked={_.includes(tableStore.selectedRows, row)}
+              tabIndex={-1}
+              key={row.id}
+              selected={_.includes(tableStore.selectedRows, row)}
+              className={classes.tableRow}
+            >
+              <TableCell padding="checkbox">
+                <Checkbox checked={_.includes(tableStore.selectedRows, row)} />
+              </TableCell>
+              {Object.keys(store.fields).map(col => {
+                if (store.fields[col].tableVisible === false) {
+                  return null;
+                }
+                if (
+                  store.fields[col].type === 'model' ||
+                  store.fields[col].type === 'modelAutoComplete'
+                ) {
+                  return (
+                    <TableCell key={store.fields[col].id}>
+                      {
+                        row[store.fields[col].relationName][
+                          store.fields[col].displayField
+                        ]
+                      }
+                    </TableCell>
+                  );
+                }
                 return (
-                  <TableCell key={store.fields[col].id}>
-                    {
-                      row[store.fields[col].relationName][
-                        store.fields[col].displayField
-                      ]
-                    }
-                  </TableCell>
+                  <TableCell key={store.fields[col].id}>{row[col]}</TableCell>
                 );
-              }
-              return (
-                <TableCell key={store.fields[col].id}>{row[col]}</TableCell>
-              );
-            })}
-          </TableRow>
-        ))}
+              })}
+            </TableRow>
+          )
+        )}
       </TableBody>
     );
   }
