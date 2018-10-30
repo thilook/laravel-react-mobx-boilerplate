@@ -9,7 +9,7 @@ import { translate } from 'react-i18next';
 import { withStyles } from '@material-ui/core';
 
 // Import components
-import { AppBar, Drawer, Loading } from './components';
+import { AppBar, Drawer, Loading, Notification } from './components';
 
 // Import Routes
 import { protectedRoutes, publicRoutes } from './pages/routes';
@@ -56,6 +56,7 @@ const darkTheme = createMuiTheme({
 });
 
 @inject('commonStore', 'drawerStore', 'uiStore', 'userStore')
+@withRouter
 @observer
 class App extends Component {
   componentDidMount() {
@@ -84,6 +85,7 @@ class App extends Component {
     if (userStore.currentUser) {
       return (
         <MuiThemeProvider theme={!uiStore.themeType ? theme : darkTheme}>
+          <Notification />
           <section>
             <AppBar />
             <Drawer />
@@ -99,12 +101,16 @@ class App extends Component {
         </MuiThemeProvider>
       );
     }
-    return <section>{publicRoutes()}</section>;
+    return (
+      <section>
+        <Notification />
+        {publicRoutes()}
+      </section>
+    );
   }
 }
 
-const AppRouter = withRouter(App);
 export default compose(
   translate('common'),
   withStyles(styles)
-)(AppRouter);
+)(App);

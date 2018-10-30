@@ -57,16 +57,13 @@ class PermissionAPIController extends AppBaseController
     {
         $input = $request->all();
 
-        $permission =  PermissionFacade::create(['name' => $input->name]);
+        $permission =  PermissionFacade::create(['name' => $input['name']]);
 
-        $roles = $input->roles;
-
-
-        if (!empty($roles)) { //If one or more role is selected
-            foreach ($roles as $role) {
+        if (!empty( $input['roles'])) { //If one or more role is selected
+            foreach ( $input['roles'] as $role) {
                 $r = Role::where('id', '=', $role)->firstOrFail(); //Match input role to db record
 
-                $permission = PermissionFacade::where('name', '=', $input->name)->first(); //Match input //permission to db record
+                $permission = PermissionFacade::where('name', '=', $input['name'])->first(); //Match input //permission to db record
                 $r->givePermissionTo($permission);
             }
         }

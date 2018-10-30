@@ -48,6 +48,10 @@
     },
     "titles": {
       "permission": "Permissão"
+    },
+    "notifications": {
+      "createSuccess": "criado com sucesso",
+      "createError": "não foi criado com sucesso"
     }
   }
 }

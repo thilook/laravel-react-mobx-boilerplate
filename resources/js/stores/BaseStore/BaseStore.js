@@ -1,38 +1,70 @@
-import { action, computed } from 'mobx';
+import { action, computed, observable } from 'mobx';
 import _ from 'lodash';
 import { RequestHelper } from '../../helpers';
 
 class BaseStore {
   constructor(
-    dataList = null,
-    errors = null,
     fields = null,
-    fieldSort = null,
-    filter = null,
-    inProgress = null,
-    orderingDirection = null,
+    formInfo = null,
+    formValidation = null,
     route = null,
     values = null
   ) {
-    this.dataList = dataList;
-    this.errors = errors;
     this.fields = fields;
-    this.fieldSort = fieldSort;
-    this.filter = filter;
-    this.inProgress = inProgress;
-    this.orderingDirection = orderingDirection;
+    this.formInfo = formInfo;
+    this.formValidation = formValidation;
     this.route = route;
     this.values = values;
   }
 
+  @observable
+  errors = null;
+
+  @observable
+  dataList = [];
+
+  @observable
+  inProgress = false;
+
+  // Table Settings
+  @observable
+  orderingDirection = true;
+
+  @observable
+  fieldSort = 'id';
+
+  @observable
+  filter = '';
+  // End Table Settings
+
   // Api Calls
   @action
-  add = data =>
-    RequestHelper.requests.post(`/api/${this.route}`, data).then(res => {
-      this.reset();
-      this.list();
-      return res;
-    });
+  add = data => {
+    this.inProgress = true;
+    return this.formValidation
+      .validate(data, { abortEarly: false })
+      .then(() =>
+        RequestHelper.requests
+          .post(`/api/${this.route}`, data)
+          .then(res => {
+            this.resetValues();
+            this.list();
+            this.inProgress = false;
+            return res;
+          })
+          .catch(err => {
+            this.inProgress = false;
+            return err;
+          })
+      )
+      .catch(err => {
+        err.inner.map(item => {
+          this.formInfo[item.params.path].error = item.message;
+        });
+        this.inProgress = false;
+        return err;
+      });
+  };
 
   @action
   delete = id =>
@@ -60,10 +92,12 @@ class BaseStore {
       .then(
         action(res => {
           this.dataList = res.data;
+          this.inProgress = false;
         })
       )
       .catch(
         action(err => {
+          this.inProgress = false;
           this.errors =
             err.response && err.response.body && err.response.body.errors;
           throw err;
@@ -128,6 +162,7 @@ class BaseStore {
   // Value Mutators
   @action
   setValue(option, value) {
+    this.formInfo[option].error = null;
     this.values[option] = value;
   }
 

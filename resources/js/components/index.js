@@ -3,6 +3,7 @@ import Drawer from './Drawer';
 import FormTemplate from './FormTemplate';
 import IfComponent from './IfComponent';
 import Loading from './Loading';
+import Notification from './Notification';
 import TableTemplate from './TableTemplate';
 import UserPopOver from './UserPopOver';
 
@@ -12,6 +13,7 @@ export {
   FormTemplate,
   IfComponent,
   Loading,
+  Notification,
   TableTemplate,
   UserPopOver,
 };

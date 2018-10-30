@@ -10,15 +10,6 @@
     "introduction": "This text on page two."
   },
   "common": {
-    "language": "English",
-    "currentLanguage": "The current language is {{lng}}",
-    "actions": {
-      "toggleToEnglish": "English",
-      "toggleToPortuguese": "Português",
-      "goToPageLaunchScreen": "Open launch screen",
-      "goToPage2": "Open page 2",
-      "fetchData": "Fetch API Data"
-    },
     "errors": {
       "unauthorized": "Login needed",
       "unknown": "Something went wrong",
@@ -48,6 +39,10 @@
     },
     "titles": {
       "permission": "Permission"
+    },
+    "notifications": {
+      "createSuccess": "created successfully",
+      "createError": "was not created successfully"
     }
   }
 }

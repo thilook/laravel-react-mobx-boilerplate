@@ -1,58 +1,53 @@
-import { observable } from 'mobx';
-import { i18n } from '../../config/MainConfigs';
+import { action, observable } from 'mobx';
+import { i18n, yup } from '../../config/MainConfigs';
 
 import BaseStore from '../BaseStore';
 
 class PermissionStore extends BaseStore {
-  // General Settings
-  route = 'permissions';
+  @observable
+  values;
 
   @observable
-  inProgress = false;
+  formInfo;
 
-  // Backend Api route
-  routeFront = 'permissions';
+  constructor() {
+    super();
+    // Table Fields
+    this.fields = {
+      id: { id: 1, label: 'Id', type: 'string' },
+      name: { id: 2, label: 'Nome', type: 'string' },
+    };
 
-  // Frontend url
-  title = i18n.t('common:titles.permission'); // Title for table and Form
-  // End General Settings
+    // Backend Api route
+    this.route = 'permissions';
+    // Frontend url
+    this.routeFront = 'permissions';
+    // Title for Table and Form
+    this.title = i18n.t('common:titles.permission'); // Title for table and Form
+    // Form Validation Schema
+    this.formValidation = yup.object().shape({
+      name: yup.string().required(),
+    });
+    // Form Values and Settings
+    this.initialize();
+  }
 
-  @observable
-  dataList = [];
+  @action
+  initialize() {
+    // Form Values
+    this.values = { name: '' };
 
-  @observable
-  values = {
-    name: '',
-  };
-
-  // Table Settings
-  @observable
-  orderingDirection = true;
-
-  @observable
-  fieldSort = 'name';
-
-  @observable
-  filter = '';
-
-  fields = {
-    id: { id: 1, label: 'Id', type: 'string' },
-    name: { id: 2, label: 'Nome', type: 'string' },
-  };
-  // End Table Settings
-
-  // Form Settings
-  @observable
-  formInfo = {
-    name: {
-      id: 1,
-      label: 'E-mail',
-      type: 'string',
-      variant: 'text',
-      required: true,
-    },
-  };
-  // End Form Settings
+    // Form Settings
+    this.formInfo = {
+      name: {
+        id: 1,
+        label: 'Name',
+        type: 'string',
+        variant: 'text',
+        required: true,
+      },
+    };
+  }
 }
 
 export default PermissionStore;

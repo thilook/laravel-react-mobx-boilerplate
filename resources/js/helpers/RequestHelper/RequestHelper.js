@@ -1,12 +1,9 @@
-import { create } from 'apisauce'
+import { create } from 'apisauce';
 
 import StorageHelper from '../StorageHelper';
 
-
-console.group = console.group || (() => {
-});
-console.groupEnd = console.groupEnd || (() => {
-});
+console.group = console.group || (() => {});
+console.groupEnd = console.groupEnd || (() => {});
 
 // Constants
 const ROOT = process.env.MIX_APP_URL;
@@ -25,63 +22,62 @@ const axiosAuth = create({
   headers,
 });
 
-if (StorageHelper.localGetItem('token')){
+if (StorageHelper.localGetItem('token')) {
   headers.Authorization = `Bearer ${StorageHelper.localGetItem('token')}`;
 }
 
 const axiosApi = create({
   baseUrl: ROOT,
   timeout: 5000,
-  headers
+  headers,
 });
 
-const preparePromise = ( call, resolve, reject, isAxios ) =>
-  call.then( response => {
-    if (response.ok || isAxios) {
-      console.group(
-        `Request ${response.config.method.toUpperCase()} SUCCESS on [${response.config.baseUrl}${
-          response.config.url
-        }]:`
-      );
-      console.log("Raw Data", response);
-      console.log("Data", response.data);
-      console.log("HTTP Status", response.status);
-      console.log("Success", response.ok);
-      console.groupEnd();
-      resolve(response.data);
-    } else {
-      console.group(
-        `Request ${response.config.method.toUpperCase()} ERROR on [${response.config.baseUrl}${
-          response.config.url
-        }]:`
-      );
-      console.log("Raw Data", response);
-      console.log("Data", response.data);
-      console.log("HTTP Status", response.status);
-      console.log("Success", response.ok);
-      console.groupEnd();
-      // const error = RequestErrorHelper.translateError(response);
-      reject(response);
-    }
-  })
+const preparePromise = (call, resolve, reject, isAxios) =>
+  call
+    .then(response => {
+      if (response.ok || isAxios) {
+        console.group(
+          `Request ${response.config.method.toUpperCase()} SUCCESS on [${
+            response.config.baseUrl
+          }${response.config.url}]:`
+        );
+        console.log('Raw Data', response);
+        console.log('Data', response.data);
+        console.log('HTTP Status', response.status);
+        console.log('Success', response.ok);
+        console.groupEnd();
+        resolve(response.data);
+      } else {
+        console.group(
+          `Request ${response.config.method.toUpperCase()} ERROR on [${
+            response.config.baseUrl
+          }${response.config.url}]:`
+        );
+        console.log('Raw Data', response);
+        console.log('Data', response.data);
+        console.log('HTTP Status', response.status);
+        console.log('Success', response.ok);
+        console.groupEnd();
+        // const error = RequestErrorHelper.translateError(response);
+        reject(response.data);
+      }
+    })
     .catch(response => {
       console.group(
-        `Request ${response.config.method.toUpperCase()} ERROR on [${response.config.baseUrl}${
-          response.config.url
-        }]:`
+        `Request ${response.config.method.toUpperCase()} ERROR on [${
+          response.config.baseUrl
+        }${response.config.url}]:`
       );
-      console.log("Raw Data", response);
-      console.log("Data", response.data);
-      console.log("HTTP Status", response.status);
-      console.log("Success", response.ok);
+      console.log('Raw Data', response);
+      console.log('Data', response.data);
+      console.log('HTTP Status', response.status);
+      console.log('Success', response.ok);
       console.groupEnd();
       // const error = RequestErrorHelper.translateError(response);
-      reject(response);
-
+      reject(response.data);
     });
 
 const requests = {
-
   del: url =>
     new Promise((resolve, reject) =>
       preparePromise(axiosApi.delete(url), resolve, reject)
@@ -89,7 +85,19 @@ const requests = {
 
   get: url =>
     new Promise((resolve, reject) =>
-      preparePromise(axiosApi.get(url, {} , {headers: {Authorization: `Bearer ${StorageHelper.localGetItem('token')}`}}), resolve, reject)
+      preparePromise(
+        axiosApi.get(
+          url,
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${StorageHelper.localGetItem('token')}`,
+            },
+          }
+        ),
+        resolve,
+        reject
+      )
     ),
 
   post: (url, data) =>
@@ -106,26 +114,25 @@ const requests = {
 const auth = {
   login: (email, password) =>
     new Promise((resolve, reject) =>
-      preparePromise(axiosAuth.post(
-        "/oauth/token", {
-          grant_type: "password",
+      preparePromise(
+        axiosAuth.post('/oauth/token', {
+          grant_type: 'password',
           client_id: WEB_CLIENT_ID,
           client_secret: WEB_CLIENT,
           username: email,
           password,
-          scope: "*",
+          scope: '*',
         }),
-      resolve,
-      reject
-      ))
-      .then(res=>
+        resolve,
+        reject
+      )
+    ).then(
+      res =>
         // axiosApi.setHeader('Authorization', `Bearer ${res.access_token}`)
         res
-      ),
+    ),
 
-  getCurrentUser: () => requests.get('/api/user')
-
+  getCurrentUser: () => requests.get('/api/user'),
 };
 
 export default { auth, requests };
-

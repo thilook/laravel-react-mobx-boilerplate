@@ -56,6 +56,7 @@ class AuthStore {
 
   @action
   setValue(option, value) {
+    this.formInfo[option].error = null;
     this.values[option] = value;
   }
 
@@ -80,6 +81,7 @@ class AuthStore {
             action(err => {
               this.errors.request =
                 err.response && err.response.body && err.response.body.errors;
+              return err;
             })
           )
           .finally(

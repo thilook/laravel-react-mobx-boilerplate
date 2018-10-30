@@ -42,14 +42,20 @@ class TableTemplate extends Component {
 
   componentDidMount() {
     const { store, tableStore } = this.props;
+    tableStore.startLoading();
     store.list().then(() => {
       tableStore.setStore(store);
-      tableStore.isLoading = false;
+      tableStore.stopLoading();
     });
   }
 
+  goToCreate = () => {
+    const { routing, store } = this.props;
+    routing.push(`/${store.routeFront}/add`);
+  };
+
   render() {
-    const { classes, disableAdd, routing, store, t, tableStore } = this.props;
+    const { classes, disableAdd, store, t, tableStore } = this.props;
 
     if (tableStore.isLoading) {
       return <Loading />;
@@ -62,11 +68,7 @@ class TableTemplate extends Component {
         </Grid>
         <Grid item xs={6} className={classes.buttonAddContainer}>
           <IfComponent condition={!disableAdd}>
-            <Button
-              size="large"
-              variant="outlined"
-              onClick={() => routing.push(`/${store.routeFront}/add`)}
-            >
+            <Button size="large" variant="outlined" onClick={this.goToCreate}>
               <AddIcon className={classes.addIcon} />
               {t('common:forms.add')}
             </Button>

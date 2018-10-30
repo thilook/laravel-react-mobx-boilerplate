@@ -29,8 +29,8 @@ class Textitem extends Component {
   }
 
   handleValueChange = e => {
-    const { fieldName, formStore } = this.props;
-    formStore.setValue(fieldName, e.target.value);
+    const { fieldName, store } = this.props;
+    store.setValue(fieldName, e.target.value);
   };
 
   handleMouseDownPassword = event => {
@@ -46,7 +46,7 @@ class Textitem extends Component {
   };
 
   render() {
-    const { item, fieldName, formStore } = this.props;
+    const { item, fieldName, store } = this.props;
     return (
       <FormControl fullWidth>
         <InputLabel htmlFor="role">
@@ -57,7 +57,7 @@ class Textitem extends Component {
           disabled={item.disabled || false}
           error={item.error ? true : false}
           type={this.variant}
-          value={formStore.values[fieldName] || ''}
+          value={store.values[fieldName] || ''}
           multiline={item.multiline || false}
           rows={item.multiline ? 4 : 1}
           onChange={this.handleValueChange}

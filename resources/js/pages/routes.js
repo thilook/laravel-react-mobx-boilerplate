@@ -1,33 +1,46 @@
-import React, { Component } from "react";
-import { Redirect, Route } from "react-router-dom";
-import { inject, observer } from 'mobx-react';
+import React from 'react';
+import { Redirect, Route } from 'react-router-dom';
 
 // Import Pages
 import HomePage from './Home';
 import LoginPage from './Login';
+import PermissionPage from './Permission';
 
+// Import Helper
+import { StorageHelper } from '../helpers';
 
-@inject('userStore', 'commonStore')
-@observer
-class PrivateRoute extends Component {
-
-  render() {
-    const { userStore, ...restProps } = this.props;
-    if (userStore.currentUser) return <Route {...restProps} />;
-    return <Redirect to="/" />;
-  }
-}
-
-const protectedRoutes = () => (
-  [
-    <PrivateRoute key={0} exact path="/" component={HomePage}/>,
-  ]
+const PrivateRoute = ({ component: Component, ...rest }) => (
+  <Route
+    {...rest}
+    render={props => {
+      if (StorageHelper.localGetItem('token')) {
+        return <Component {...props} />;
+      }
+      return (
+        <Redirect
+          to={{
+            pathname: '/',
+            state: { from: props.location },
+          }}
+        />
+      );
+    }}
+  />
 );
 
-const publicRoutes = () => (
-  [
-    <Route key={0} exact path="/" component={LoginPage}/>,
-  ]
-);
+const protectedRoutes = () => [
+  <PrivateRoute key={0} exact path="/" component={HomePage} />,
+  <PrivateRoute key={1} exact path="/permissions" component={PermissionPage} />,
+  <PrivateRoute
+    key={2}
+    exact
+    path="/permissions/add"
+    component={PermissionPage}
+  />,
+];
+
+const publicRoutes = () => [
+  <Route key={0} exact path="/" component={LoginPage} />,
+];
 
 export { protectedRoutes, publicRoutes };

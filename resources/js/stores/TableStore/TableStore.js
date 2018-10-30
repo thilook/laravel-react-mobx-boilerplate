@@ -28,6 +28,16 @@ class TableStore {
   }
 
   @action
+  stopLoading() {
+    this.isLoading = false;
+  }
+
+  @action
+  startLoading() {
+    this.isLoading = true;
+  }
+
+  @action
   calcTotal(items) {
     return Math.ceil(items / this.rowsPerPage);
   }

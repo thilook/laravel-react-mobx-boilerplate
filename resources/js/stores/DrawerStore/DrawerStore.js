@@ -3,13 +3,18 @@ import React from 'react';
 import { action, observable } from 'mobx';
 import ProductsIcon from '@material-ui/icons/ImportantDevices';
 
-
 class DrawerStore {
+  @observable
+  isOpen = false;
 
-  @observable isOpen = false;
-
-  @observable drawerItems = [
-    { id:1, label: 'Test', routing: '/test', icon: <ProductsIcon /> },
+  @observable
+  drawerItems = [
+    {
+      id: 1,
+      label: 'Permissions',
+      routing: '/permissions',
+      icon: <ProductsIcon />,
+    },
     {
       id: 2,
       label: 'Test SubList',
@@ -33,21 +38,21 @@ class DrawerStore {
       ],
     },
     { id: 4, label: 'Test', routing: '/test', icon: <ProductsIcon /> },
-
   ];
 
- @action collapse = (id) => {
-   this.drawerItems.map( item => {
-     if (item.id === id) {
-       item.isOpen = !item.isOpen;
-     }
-   })
- };
+  @action
+  collapse = id => {
+    this.drawerItems.map(item => {
+      if (item.id === id) {
+        item.isOpen = !item.isOpen;
+      }
+    });
+  };
 
-  @action toogleOpen = () => {
+  @action
+  toogleOpen = () => {
     this.isOpen = !this.isOpen;
-  }
-
+  };
 }
 
 export default DrawerStore;
