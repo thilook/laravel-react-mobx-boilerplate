@@ -6,6 +6,8 @@ import { compose } from 'recompose';
 import { translate } from 'react-i18next';
 import { Button, Grid } from '@material-ui/core';
 
+// Import Field Types
+import SelectField from './SelectField';
 import TextField from './TextField';
 
 @inject('routing', 'notificationStore')
@@ -72,6 +74,16 @@ class FormTemplate extends Component {
           />
         );
       }
+      case 'select': {
+        return (
+          <SelectField
+            key={item.id}
+            item={item}
+            fieldName={fieldName}
+            store={store}
+          />
+        );
+      }
       default:
         return null;
     }
@@ -81,7 +93,7 @@ class FormTemplate extends Component {
     const { addButtons, children, store, t } = this.props;
     if (addButtons) {
       return (
-        <Grid container>
+        <Grid container style={{ marginTop: 20 }}>
           <Grid item xs={6}>
             <Button
               onClick={this.goBack}
@@ -94,7 +106,7 @@ class FormTemplate extends Component {
               {t('common:forms.cancel')}
             </Button>
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={6} style={{ textAlign: 'right' }}>
             <Button
               onClick={this.handleSubmitAdd}
               variant="contained"

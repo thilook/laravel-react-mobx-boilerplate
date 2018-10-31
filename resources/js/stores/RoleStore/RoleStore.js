@@ -2,9 +2,9 @@ import { action, observable } from 'mobx';
 import { i18n, yup } from '../../config/MainConfigs';
 
 import BaseStore from '../BaseStore';
-import RoleStore from '../RoleStore';
+import PermissionStore from '../PermissionStore';
 
-class PermissionStore extends BaseStore {
+class RoleStore extends BaseStore {
   @observable
   values;
 
@@ -20,9 +20,9 @@ class PermissionStore extends BaseStore {
     };
 
     // Backend Api route
-    this.route = 'permissions';
+    this.route = 'roles';
     // Frontend url
-    this.routeFront = 'permissions';
+    this.routeFront = 'roles';
     // Title for Table and Form
     this.title = i18n.t('common:titles.permission'); // Title for table and Form
     // Form Validation Schema
@@ -47,16 +47,16 @@ class PermissionStore extends BaseStore {
         variant: 'text',
         required: true,
       },
-      roles: {
+      permissions: {
         id: 2,
-        label: 'Roles',
+        label: 'Permissions',
         type: 'select',
         variant: 'multiple',
-        relatedStore: new RoleStore(),
+        relatedStore: PermissionStore,
         required: false,
       },
     };
   }
 }
 
-export default PermissionStore;
+export default RoleStore;

@@ -3,6 +3,7 @@ import CommonStore from './CommonStore';
 import DrawerStore from './DrawerStore';
 import NotificationStore from './NotificationStore';
 import PermissionStore from './PermissionStore';
+import RoleStore from './RoleStore';
 import TableStore from './TableStore';
 import UiStore from './UiStore';
 import UserStore from './UserStore';
@@ -12,6 +13,7 @@ const commonStore = new CommonStore();
 const drawerStore = new DrawerStore();
 const notificationStore = new NotificationStore();
 const permissionStore = new PermissionStore();
+const roleStore = new RoleStore();
 const tableStore = new TableStore();
 const uiStore = new UiStore();
 const userStore = new UserStore();
@@ -22,6 +24,7 @@ const customStores = {
   drawerStore,
   notificationStore,
   permissionStore,
+  roleStore,
   tableStore,
   uiStore,
   userStore,
