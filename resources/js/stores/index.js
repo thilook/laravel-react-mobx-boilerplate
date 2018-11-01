@@ -17,6 +17,7 @@ const permissionStore = new PermissionStore();
 const roleStore = new RoleStore();
 const tableStore = new TableStore();
 const uiStore = new UiStore();
+const userListStore = new UserListStore();
 const userStore = new UserStore();
 
 const customStores = {
@@ -28,6 +29,7 @@ const customStores = {
   roleStore,
   tableStore,
   uiStore,
+  userListStore,
   userStore,
 };
 
