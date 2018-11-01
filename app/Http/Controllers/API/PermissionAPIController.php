@@ -129,14 +129,34 @@ class PermissionAPIController extends AppBaseController
     public function destroy($id)
     {
         /** @var Permission $permission */
-        $permission = $this->permissionRepository->findWithoutFail($id);
+
+        $permission = PermissionFacade::findOrFail($id);
 
         if (empty($permission)) {
+            return $this->sendError('Permission not found');
+        }
+
+        //Make it impossible to delete this specific permission
+        if ($permission->name == "Administer roles & permissions") {
             return $this->sendError('Permission not found');
         }
 
         $permission->delete();
 
         return $this->sendResponse($id, 'Permission deleted successfully');
+
+//        return redirect()->route('permissions.index')
+//            ->with('flash_message',
+//                'Permission deleted!');
+//
+//        $permission = $this->permissionRepository->findWithoutFail($id);
+//
+//        if (empty($permission)) {
+//            return $this->sendError('Permission not found');
+//        }
+//
+//        $permission->delete();
+//
+//        return $this->sendResponse($id, 'Permission deleted successfully');
     }
 }

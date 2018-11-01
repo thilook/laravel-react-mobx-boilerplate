@@ -88,7 +88,6 @@ class TableStore {
   // Handle page change
   @action
   handleChangePage = (isNext, isLast = false) => {
-    console.log('change Page');
     if (typeof isNext !== 'boolean') {
       this.page = isNext;
     } else if (isNext) {

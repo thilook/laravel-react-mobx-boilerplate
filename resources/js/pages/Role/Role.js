@@ -4,13 +4,13 @@ import { inject, observer } from 'mobx-react';
 // Import custom components
 import { Crud } from '../../components';
 
-@inject('permissionStore')
+@inject('roleStore')
 @observer
-class Permission extends Component {
+class Role extends Component {
   render() {
-    const { permissionStore } = this.props;
-    return <Crud store={permissionStore} />;
+    const { roleStore } = this.props;
+    return <Crud store={roleStore} />;
   }
 }
 
-export default Permission;
+export default Role;

@@ -1,14 +1,4 @@
 {
-  "home": {
-    "headerTitle": "Home header",
-    "title": "Welcome Message",
-    "introduction": "This text comes from i18next and is provided in english."
-  },
-  "page2": {
-    "headerTitle": "Page 2",
-    "title": "Title page 2",
-    "introduction": "This text on page two."
-  },
   "common": {
     "errors": {
       "unauthorized": "Login needed",
@@ -38,7 +28,8 @@
       "password": "Please verify your password"
     },
     "titles": {
-      "permission": "Permission"
+      "permissions": "Permissions",
+      "roles": "Roles"
     },
     "notifications": {
       "createSuccess": "created successfully",

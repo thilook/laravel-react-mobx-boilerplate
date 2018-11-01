@@ -5,6 +5,7 @@ import { Redirect, Route } from 'react-router-dom';
 import HomePage from './Home';
 import LoginPage from './Login';
 import PermissionPage from './Permission';
+import RolePage from './Role';
 
 // Import Helper
 import { StorageHelper } from '../helpers';
@@ -37,6 +38,8 @@ const protectedRoutes = () => [
     path="/permissions/add"
     component={PermissionPage}
   />,
+  <PrivateRoute key={3} exact path="/roles" component={RolePage} />,
+  <PrivateRoute key={4} exact path="/roles/add" component={RolePage} />,
 ];
 
 const publicRoutes = () => [

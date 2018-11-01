@@ -195,7 +195,8 @@ class SelectField extends Component {
             shrink: store.values[fieldName].length > 0,
           },
           disabled: item.disabled || false,
-          error: item.error,
+          error: item.error ? true : false,
+          helperText: item.error ? item.error : '',
           required: item.required,
         }}
         options={this.suggestions}

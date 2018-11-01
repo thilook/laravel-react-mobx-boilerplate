@@ -24,10 +24,11 @@ class RoleStore extends BaseStore {
     // Frontend url
     this.routeFront = 'roles';
     // Title for Table and Form
-    this.title = i18n.t('common:titles.permission'); // Title for table and Form
+    this.title = i18n.t('common:titles.roles'); // Title for table and Form
     // Form Validation Schema
     this.formValidation = yup.object().shape({
       name: yup.string().required(),
+      permissions: yup.array().required(),
     });
     // Form Values and Settings
     this.initialize();
@@ -36,7 +37,7 @@ class RoleStore extends BaseStore {
   @action
   initialize() {
     // Form Values
-    this.values = { name: '', roles: [] };
+    this.values = { name: '', permissions: [] };
 
     // Form Settings
     this.formInfo = {
@@ -52,8 +53,8 @@ class RoleStore extends BaseStore {
         label: 'Permissions',
         type: 'select',
         variant: 'multiple',
-        relatedStore: PermissionStore,
-        required: false,
+        relatedStore: new PermissionStore(),
+        required: true,
       },
     };
   }

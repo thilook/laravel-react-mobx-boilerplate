@@ -47,7 +47,8 @@
       "password": "Por favor verifique seu password"
     },
     "titles": {
-      "permission": "Permissão"
+      "permission": "Permissão",
+      "roles": "Funções"
     },
     "notifications": {
       "createSuccess": "criado com sucesso",

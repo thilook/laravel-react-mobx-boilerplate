@@ -40,6 +40,7 @@ const selectStyles = theme => ({
   },
   paper: {
     padding: theme.spacing.unit * 4,
+    marginTop: 20,
   },
   formContainer: {
     marginTop: theme.spacing.unit,

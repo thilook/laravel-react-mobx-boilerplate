@@ -4,7 +4,7 @@ import { inject, observer } from 'mobx-react';
 import PropTypes from 'prop-types';
 import { compose } from 'recompose';
 import { translate } from 'react-i18next';
-import { Button, Grid, Paper, withStyles } from '@material-ui/core';
+import { Button, Grid, Paper, Typography, withStyles } from '@material-ui/core';
 
 // Import Field Types
 import SelectField from './SelectField';
@@ -27,12 +27,13 @@ class FormTemplate extends Component {
   };
 
   goBack = () => {
-    const { routing } = this.props;
+    const { routing, store } = this.props;
+    store.resetValues();
     routing.goBack();
   };
 
   handleSubmitAdd = e => {
-    const { notificationStore, store, t } = this.props;
+    const { notificationStore, routing, store, t } = this.props;
     e.preventDefault();
     store
       .add(store.values)
@@ -45,6 +46,7 @@ class FormTemplate extends Component {
             variant: 'success',
           });
           notificationStore.setOpen(true);
+          routing.goBack();
         } else if (!res.success && !res.name) {
           notificationStore.setNotificationSettings({
             message: `${store.title} ${t(
@@ -137,7 +139,9 @@ class FormTemplate extends Component {
     if (basicLayout) {
       return (
         <Grid container spacing={8}>
-          <Grid item xs={12} />
+          <Grid item xs={12}>
+            <Typography variant="h5">{store.title}</Typography>
+          </Grid>
           <Grid item xs={12}>
             <Paper className={classes.paper}>
               {Object.keys(store.formInfo).map(item =>

@@ -6,6 +6,7 @@ import PermissionStore from './PermissionStore';
 import RoleStore from './RoleStore';
 import TableStore from './TableStore';
 import UiStore from './UiStore';
+import UserListStore from './UserListStore';
 import UserStore from './UserStore';
 
 const authStore = new AuthStore();

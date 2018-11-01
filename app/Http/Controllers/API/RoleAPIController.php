@@ -57,9 +57,9 @@ class RoleAPIController extends AppBaseController
     {
         $input = $request->all();
 
-        $role = RoleFacade::create(['name' => $input->name ]);
+        $role = RoleFacade::create(['name' => $input['name'] ]);
 
-        foreach ($input->permissions as $permission) {
+        foreach ($input['permissions'] as $permission) {
             $p = Permission::where('id', $permission)->firstOrFail();
             $role->givePermissionTo($p);
         }
@@ -134,14 +134,26 @@ class RoleAPIController extends AppBaseController
     public function destroy($id)
     {
         /** @var Role $role */
-        $role = $this->roleRepository->findWithoutFail($id);
-
+        $role = Role::findOrFail($id);
         if (empty($role)) {
             return $this->sendError('Role not found');
         }
 
         $role->delete();
-
         return $this->sendResponse($id, 'Role deleted successfully');
+
+//        return redirect()->route('roles.index')
+//            ->with('flash_message',
+//                'Role deleted!');
+//
+//        $role = $this->roleRepository->findWithoutFail($id);
+//
+//        if (empty($role)) {
+//            return $this->sendError('Role not found');
+//        }
+//
+//        $role->delete();
+//
+//        return $this->sendResponse($id, 'Role deleted successfully');
     }
 }

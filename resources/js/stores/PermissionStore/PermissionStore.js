@@ -24,7 +24,7 @@ class PermissionStore extends BaseStore {
     // Frontend url
     this.routeFront = 'permissions';
     // Title for Table and Form
-    this.title = i18n.t('common:titles.permission'); // Title for table and Form
+    this.title = i18n.t('common:titles.permissions'); // Title for table and Form
     // Form Validation Schema
     this.formValidation = yup.object().shape({
       name: yup.string().required(),
@@ -46,14 +46,6 @@ class PermissionStore extends BaseStore {
         type: 'string',
         variant: 'text',
         required: true,
-      },
-      roles: {
-        id: 2,
-        label: 'Roles',
-        type: 'select',
-        variant: 'multiple',
-        relatedStore: new RoleStore(),
-        required: false,
       },
     };
   }

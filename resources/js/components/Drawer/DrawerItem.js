@@ -43,6 +43,7 @@ class DrawerItem extends Component {
                   item={subItem}
                   isSub
                   classes={classes}
+                  routing={routing}
                 />
               ))}
             </List>
@@ -51,7 +52,6 @@ class DrawerItem extends Component {
         </section>
       );
     }
-
     return (
       <section>
         <Tooltip title={item.label} placement="right">
