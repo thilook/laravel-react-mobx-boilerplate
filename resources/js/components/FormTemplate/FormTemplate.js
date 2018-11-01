@@ -19,12 +19,21 @@ class FormTemplate extends Component {
   static propTypes = {
     addButtons: PropTypes.bool,
     basicLayout: PropTypes.bool,
+    id: PropTypes.string,
   };
 
   static defaultProps = {
     addButtons: false,
     basicLayout: true,
+    id: null,
   };
+
+  componentDidMount() {
+    const { id, store } = this.props;
+    if (id) {
+      store.detail(id);
+    }
+  }
 
   goBack = () => {
     const { routing, store } = this.props;

@@ -2,7 +2,6 @@ import { action, observable } from 'mobx';
 import { i18n, yup } from '../../config/MainConfigs';
 
 import BaseStore from '../BaseStore';
-import RoleStore from '../RoleStore';
 
 class PermissionStore extends BaseStore {
   @observable
@@ -15,9 +14,10 @@ class PermissionStore extends BaseStore {
     super();
     // Table Fields
     this.fields = {
-      id: { id: 1, label: 'Id', type: 'string' },
       name: { id: 2, label: 'Nome', type: 'string' },
     };
+
+    this.fieldSort = 'name';
 
     // Backend Api route
     this.route = 'permissions';
@@ -36,7 +36,7 @@ class PermissionStore extends BaseStore {
   @action
   initialize() {
     // Form Values
-    this.values = { name: '', roles: [] };
+    this.values = { name: '' };
 
     // Form Settings
     this.formInfo = {

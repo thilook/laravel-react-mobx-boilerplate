@@ -54,6 +54,7 @@ class RoleStore extends BaseStore {
         type: 'select',
         variant: 'multiple',
         relatedStore: new PermissionStore(),
+        relatedPair: { value: 'id', label: 'name' },
         required: true,
       },
     };

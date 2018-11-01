@@ -8,8 +8,9 @@ import { Crud } from '../../components';
 @observer
 class Permission extends Component {
   render() {
-    const { permissionStore } = this.props;
-    return <Crud store={permissionStore} />;
+    const { match, permissionStore } = this.props;
+
+    return <Crud store={permissionStore} match={match} />;
   }
 }
 

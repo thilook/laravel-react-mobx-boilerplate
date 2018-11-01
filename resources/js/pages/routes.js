@@ -39,10 +39,18 @@ const protectedRoutes = () => [
     path="/permissions/add"
     component={PermissionPage}
   />,
-  <PrivateRoute key={3} exact path="/roles" component={RolePage} />,
-  <PrivateRoute key={4} exact path="/roles/add" component={RolePage} />,
-  <PrivateRoute key={5} exact path="/users" component={UserPage} />,
-  <PrivateRoute key={6} exact path="/users/add" component={UserPage} />,
+  <PrivateRoute
+    key={3}
+    exact
+    path="/permissions/edit/:id"
+    component={PermissionPage}
+  />,
+  <PrivateRoute key={4} exact path="/roles" component={RolePage} />,
+  <PrivateRoute key={5} exact path="/roles/add" component={RolePage} />,
+  <PrivateRoute key={6} exact path="/roles/edit/:id" component={RolePage} />,
+  <PrivateRoute key={7} exact path="/users" component={UserPage} />,
+  <PrivateRoute key={8} exact path="/users/add" component={UserPage} />,
+  <PrivateRoute key={9} exact path="/users/edit/:id" component={UserPage} />,
 ];
 
 const publicRoutes = () => [

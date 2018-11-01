@@ -8,10 +8,13 @@ import { FormTemplate, TableTemplate } from '..';
 @observer
 class Permission extends Component {
   render() {
-    const { routing, store } = this.props;
+    const { match, routing, store } = this.props;
+
     switch (routing.location.pathname) {
       case `/${store.route}/add`:
         return <FormTemplate store={store} addButtons />;
+      case `/${store.route}/edit/${match.params.id}`:
+        return <FormTemplate id={match.params.id} store={store} addButtons />;
       default:
         return <TableTemplate store={store} />;
     }

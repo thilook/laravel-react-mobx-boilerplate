@@ -8,8 +8,8 @@ import { Crud } from '../../components';
 @observer
 class Role extends Component {
   render() {
-    const { roleStore } = this.props;
-    return <Crud store={roleStore} />;
+    const { match, roleStore } = this.props;
+    return <Crud store={roleStore} match={match} />;
   }
 }
 

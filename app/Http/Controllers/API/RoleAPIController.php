@@ -80,13 +80,17 @@ class RoleAPIController extends AppBaseController
     public function show($id)
     {
         /** @var Role $role */
-        $role = $this->roleRepository->findWithoutFail($id);
+        $role = RoleFacade::findOrFail($id);
+
+        //$role = $this->roleRepository->findWithoutFail($id);
+        $res = $role;
+        $res['permissions'] = $role->permissions;
 
         if (empty($role)) {
             return $this->sendError('Role not found');
         }
 
-        return $this->sendResponse($role->toArray(), 'Role retrieved successfully');
+        return $this->sendResponse($res->toArray(), 'Role retrieved successfully');
     }
 
     /**

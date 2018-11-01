@@ -8,8 +8,8 @@ import { Crud } from '../../components';
 @observer
 class User extends Component {
   render() {
-    const { userListStore } = this.props;
-    return <Crud store={userListStore} />;
+    const { match, userListStore } = this.props;
+    return <Crud store={userListStore} match={match} />;
   }
 }
 

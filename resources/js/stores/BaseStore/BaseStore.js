@@ -78,8 +78,8 @@ class BaseStore {
       );
 
   detail = id =>
-    RequestHelper.requests.get(`${this.route}/${id}`).then(res => {
-      this.fillValues(res);
+    RequestHelper.requests.get(`/api/${this.route}/${id}`).then(res => {
+      this.fillValues(res.data);
     });
 
   @action
@@ -174,7 +174,18 @@ class BaseStore {
 
   @action
   fillValues(res) {
-    // TODO generic fill fields
+    console.log('res', res);
+    Object.keys(this.values).map(option => {
+      if (this.formInfo[option].type === 'select') {
+        this.values[option] = res[option].map(item => ({
+          value: item[this.formInfo[option].relatedPair.value],
+          label: item[this.formInfo[option].relatedPair.label],
+        }));
+      } else {
+        this.values[option] = res[option];
+      }
+      return null;
+    });
   }
   // End Value Mutators
 }
