@@ -4,21 +4,26 @@ import { inject, observer } from 'mobx-react';
 import PropTypes from 'prop-types';
 import { compose } from 'recompose';
 import { translate } from 'react-i18next';
-import { Button, Grid } from '@material-ui/core';
+import { Button, Grid, Paper, withStyles } from '@material-ui/core';
 
 // Import Field Types
 import SelectField from './SelectField';
 import TextField from './TextField';
+
+// Import styles
+import styles from './styles';
 
 @inject('routing', 'notificationStore')
 @observer
 class FormTemplate extends Component {
   static propTypes = {
     addButtons: PropTypes.bool,
+    basicLayout: PropTypes.bool,
   };
 
   static defaultProps = {
     addButtons: false,
+    basicLayout: true,
   };
 
   goBack = () => {
@@ -127,7 +132,24 @@ class FormTemplate extends Component {
   }
 
   render() {
-    const { store } = this.props;
+    const { basicLayout, classes, store } = this.props;
+
+    if (basicLayout) {
+      return (
+        <Grid container spacing={8}>
+          <Grid item xs={12} />
+          <Grid item xs={12}>
+            <Paper className={classes.paper}>
+              {Object.keys(store.formInfo).map(item =>
+                this.selectFieldType(item)
+              )}
+              {this.renderDefaultButtons()}
+            </Paper>
+          </Grid>
+        </Grid>
+      );
+    }
+
     return (
       <form>
         {Object.keys(store.formInfo).map(item => this.selectFieldType(item))}
@@ -137,4 +159,7 @@ class FormTemplate extends Component {
   }
 }
 
-export default compose(translate('common'))(FormTemplate);
+export default compose(
+  translate('common'),
+  withStyles(styles)
+)(FormTemplate);

@@ -108,6 +108,7 @@ function MultiValue(props) {
     <Chip
       tabIndex={-1}
       label={props.children}
+      color="primary"
       className={classNames(props.selectProps.classes.chip, {
         [props.selectProps.classes.chipFocused]: props.isFocused,
       })}

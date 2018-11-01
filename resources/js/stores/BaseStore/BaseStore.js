@@ -66,7 +66,6 @@ class BaseStore {
       });
   };
 
-  @action
   delete = id =>
     RequestHelper.requests
       .del(`/api/${this.route}/${id}`)
@@ -78,7 +77,6 @@ class BaseStore {
         })
       );
 
-  @action
   detail = id =>
     RequestHelper.requests.get(`${this.route}/${id}`).then(res => {
       this.fillValues(res);
@@ -113,7 +111,7 @@ class BaseStore {
   @action
   update = (id, data) =>
     RequestHelper.requests.put(`/api/${this.route}/${id}`, data).then(res => {
-      this.reset();
+      this.resetValues();
       this.list();
       return res;
     });

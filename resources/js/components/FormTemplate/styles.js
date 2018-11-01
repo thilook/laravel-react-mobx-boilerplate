@@ -39,11 +39,10 @@ const selectStyles = theme => ({
     fontSize: 16,
   },
   paper: {
-    position: 'absolute',
-    zIndex: 1,
+    padding: theme.spacing.unit * 4,
+  },
+  formContainer: {
     marginTop: theme.spacing.unit,
-    left: 0,
-    right: 0,
   },
   divider: {
     height: theme.spacing.unit * 2,

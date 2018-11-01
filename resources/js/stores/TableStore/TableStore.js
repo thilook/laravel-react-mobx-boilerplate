@@ -57,6 +57,7 @@ class TableStore {
   @action
   handleDelete = () => {
     this.selectedRows.map(item => this.store.delete(item.id));
+    this.selectedRows = [];
   };
 
   // Handles edit on search (filter) input
