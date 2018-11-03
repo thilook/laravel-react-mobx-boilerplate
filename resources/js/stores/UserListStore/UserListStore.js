@@ -38,7 +38,7 @@ class UserListStore extends BaseStore {
   @action
   initialize() {
     // Form Values
-    this.values = { name: '', roles: [] };
+    this.values = { name: '', email: '', roles: [] };
 
     // Form Settings
     this.formInfo = {
@@ -62,6 +62,7 @@ class UserListStore extends BaseStore {
         type: 'select',
         variant: 'multiple',
         relatedStore: new RoleStore(),
+        relatedPair: { value: 'id', label: 'name' },
         required: true,
       },
     };

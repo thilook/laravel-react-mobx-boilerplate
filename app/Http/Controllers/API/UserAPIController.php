@@ -4,12 +4,16 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Requests\API\CreateUserAPIRequest;
 use App\Http\Requests\API\UpdateUserAPIRequest;
+use App\Models\Invite;
 use App\Models\User;
 use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AppBaseController;
+use Illuminate\Support\Facades\Mail;
 use InfyOm\Generator\Criteria\LimitOffsetCriteria;
 use Prettus\Repository\Criteria\RequestCriteria;
+use Spatie\Permission\Models\Role;
+use App\Mail\UserInvite;
 use Response;
 
 /**
@@ -104,11 +108,17 @@ class UserAPIController extends AppBaseController
         $input = $request->all();
 
         /** @var User $user */
-        $user = $this->userRepository->findWithoutFail($id);
-
+        $user = \App\User::query()->findOrFail($id);
         if (empty($user)) {
             return $this->sendError('User not found');
         }
+        $roles = [];
+        foreach ($input['roles'] as $role) {
+            $r = Role::findById($role['value']);
+            array_push($roles, $r);
+        }
+
+        $user->syncRoles($roles);
 
         $user = $this->userRepository->update($input, $id);
 
@@ -135,5 +145,14 @@ class UserAPIController extends AppBaseController
         $user->delete();
 
         return $this->sendResponse($id, 'User deleted successfully');
+    }
+
+
+    public function sendInvite(Request $request)
+    {
+        $input = $request->all();
+        $invite = Invite::create($input);
+
+        Mail::to($input->email)->send(new UserInvite($invite));
     }
 }
