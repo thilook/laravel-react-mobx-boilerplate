@@ -1,12 +1,20 @@
 import React, { Component } from 'react';
+import { action, observable } from 'mobx';
 import { observer } from 'mobx-react';
+import i18n from 'i18next';
 
 import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
   FormControl,
   Grid,
   IconButton,
   Input,
   InputAdornment,
+  Slide,
   Toolbar,
   Typography,
 } from '@material-ui/core';
@@ -16,12 +24,67 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import SearchIcon from '@material-ui/icons/Search';
 
+function Transition(props) {
+  return <Slide direction="up" {...props} />;
+}
+
+const DialogComponent = props => (
+  <div>
+    <Dialog
+      open={props.isOpen}
+      TransitionComponent={Transition}
+      keepMounted
+      onClose={props.dialogClose}
+      aria-labelledby="alert-dialog-slide-title"
+      aria-describedby="alert-dialog-slide-description"
+    >
+      <DialogTitle id="alert-dialog-slide-title">
+        {i18n.t('common:dialogs.confirmDeleteTitle')}
+      </DialogTitle>
+      <DialogContent />
+      <DialogActions>
+        <Button onClick={props.dialogClose} color="primary">
+          {i18n.t('common:forms.cancel')}
+        </Button>
+        <Button onClick={props.onDelete} color="primary">
+          {i18n.t('common:forms.delete')}
+        </Button>
+      </DialogActions>
+    </Dialog>
+  </div>
+);
+
 @observer
 class TableToolbar extends Component {
+  @observable
+  isOpen = false;
+
+  @action
+  dialogClose = () => {
+    this.isOpen = false;
+  };
+
+  @action
+  dialogOpen = () => {
+    this.isOpen = true;
+  };
+
+  @action
+  delete = () => {
+    const { tableStore } = this.props;
+    this.dialogClose();
+    tableStore.handleDelete();
+  };
+
   render() {
     const { routing, store, t, tableStore } = this.props;
     return (
       <Toolbar disableGutters>
+        <DialogComponent
+          isOpen={this.isOpen}
+          dialogClose={this.dialogClose}
+          onDelete={this.delete}
+        />
         {tableStore.selectedRows.length === 0 ? (
           <Grid
             container
@@ -66,7 +129,7 @@ class TableToolbar extends Component {
                   <EditIcon />
                 </IconButton>
               ) : null}
-              <IconButton aria-label="Delete" onClick={tableStore.handleDelete}>
+              <IconButton aria-label="Delete" onClick={this.dialogOpen}>
                 <DeleteIcon />
               </IconButton>
             </Grid>

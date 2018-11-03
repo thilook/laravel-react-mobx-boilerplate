@@ -40,7 +40,11 @@
       "save": "Salvar",
       "selectedItems": "Itens Selecionados",
       "search": "Pesquisar",
-      "update": "Atualizar"
+      "update": "Atualizar",
+      "delete": "Deletar"
+    },
+    "dialogs": {
+      "confirmDeleteTitle": "Você tem certeza que deseja deletar?"
     },
     "formValidation": {
       "required": "Este campo é obrigatório",
