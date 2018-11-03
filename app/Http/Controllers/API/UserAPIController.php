@@ -77,13 +77,17 @@ class UserAPIController extends AppBaseController
     public function show($id)
     {
         /** @var User $user */
-        $user = $this->userRepository->findWithoutFail($id);
+        //$user = $this->userRepository->findWithoutFail($id);
+        $user = \App\User::query()->findOrFail($id);
 
         if (empty($user)) {
             return $this->sendError('User not found');
         }
+        $obj = $user;
+        $obj['roles'] = $user->getRoleNames();
 
-        return $this->sendResponse($user->toArray(), 'User retrieved successfully');
+
+        return $this->sendResponse($obj->toArray(), 'User retrieved successfully');
     }
 
     /**

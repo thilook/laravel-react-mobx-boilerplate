@@ -76,6 +76,41 @@ class FormTemplate extends Component {
       });
   };
 
+  handleSubmitUpdate = e => {
+    const { id, notificationStore, routing, store, t } = this.props;
+    e.preventDefault();
+    store
+      .update(id, store.values)
+      .then(res => {
+        if (res.success) {
+          notificationStore.setNotificationSettings({
+            message: `${store.title} ${t(
+              'common:notifications.updateSuccess'
+            )}`,
+            variant: 'success',
+          });
+          notificationStore.setOpen(true);
+          routing.goBack();
+        } else if (!res.success && !res.name) {
+          notificationStore.setNotificationSettings({
+            message: `${store.title} ${t(
+              'common:notifications.updateError'
+            )} - ${res.message}`,
+            variant: 'error',
+          });
+          notificationStore.setOpen(true);
+        }
+      })
+      .catch(err => {
+        console.log('error', err);
+        notificationStore.setNotificationSettings({
+          message: `${store.title} ${t('common:notifications.updateError')}`,
+          variant: 'error',
+        });
+        notificationStore.setOpen(true);
+      });
+  };
+
   selectFieldType(fieldName) {
     const { store } = this.props;
     const item = store.formInfo[fieldName];
@@ -106,7 +141,7 @@ class FormTemplate extends Component {
   }
 
   renderDefaultButtons() {
-    const { addButtons, children, store, t } = this.props;
+    const { addButtons, children, id, store, t } = this.props;
     if (addButtons) {
       return (
         <Grid container style={{ marginTop: 20 }}>
@@ -124,7 +159,7 @@ class FormTemplate extends Component {
           </Grid>
           <Grid item xs={6} style={{ textAlign: 'right' }}>
             <Button
-              onClick={this.handleSubmitAdd}
+              onClick={id ? this.handleSubmitUpdate : this.handleSubmitAdd}
               variant="contained"
               color="primary"
               type="submit"
@@ -133,7 +168,7 @@ class FormTemplate extends Component {
               }}
               disabled={store.inProgress}
             >
-              {t('common:forms.save')}
+              {id ? t('common:forms.update') : t('common:forms.save')}
             </Button>
           </Grid>
         </Grid>

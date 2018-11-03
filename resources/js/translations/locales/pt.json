@@ -39,7 +39,8 @@
       "logOut": "Sair",
       "save": "Salvar",
       "selectedItems": "Itens Selecionados",
-      "search": "Pesquisar"
+      "search": "Pesquisar",
+      "update": "Atualizar"
     },
     "formValidation": {
       "required": "Este campo é obrigatório",
@@ -47,12 +48,15 @@
       "password": "Por favor verifique seu password"
     },
     "titles": {
-      "permission": "Permissão",
-      "roles": "Funções"
+      "permissions": "Permissões",
+      "roles": "Funções",
+      "users": "Usuários"
     },
     "notifications": {
       "createSuccess": "criado com sucesso",
-      "createError": "não foi criado com sucesso"
+      "createError": "não foi criado com sucesso",
+      "updateSuccess": "atualizado com sucesso",
+      "updateError": "não foi atualizado com sucesso"
     }
   }
 }

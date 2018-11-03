@@ -42,6 +42,14 @@ class TableStore {
     return Math.ceil(items / this.rowsPerPage);
   }
 
+  @action
+  reset() {
+    this.selectedRows = [];
+    this.min = this.page * this.rowsPerPage - 10;
+    this.max = this.page * this.rowsPerPage - 1;
+    this.store = null;
+  }
+
   // Select row when clicked
   @action
   handleClick(event, row) {

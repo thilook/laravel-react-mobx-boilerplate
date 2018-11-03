@@ -50,6 +50,11 @@ class TableTemplate extends Component {
     });
   }
 
+  componentWillUnmount() {
+    const { tableStore } = this.props;
+    tableStore.reset();
+  }
+
   goToCreate = () => {
     const { routing, store } = this.props;
     routing.push(`/${store.routeFront}/add`);

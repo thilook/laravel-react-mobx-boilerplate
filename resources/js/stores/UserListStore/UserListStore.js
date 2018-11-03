@@ -25,7 +25,7 @@ class UserListStore extends BaseStore {
     // Frontend url
     this.routeFront = 'users';
     // Title for Table and Form
-    this.title = i18n.t('common:titles.roles'); // Title for table and Form
+    this.title = i18n.t('common:titles.users'); // Title for table and Form
     // Form Validation Schema
     this.formValidation = yup.object().shape({
       name: yup.string().required(),
