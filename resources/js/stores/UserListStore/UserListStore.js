@@ -15,9 +15,9 @@ class UserListStore extends BaseStore {
     super();
     // Table Fields
     this.fields = {
-      id: { id: 1, label: 'Id', type: 'string' },
       name: { id: 2, label: 'Nome', type: 'string' },
       email: { id: 3, label: 'Email', type: 'string' },
+      roles: { id: 4, label: 'Roles', type: 'array', fieldDisplay: 'name' },
     };
 
     // Backend Api route

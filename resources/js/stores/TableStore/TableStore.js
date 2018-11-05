@@ -43,11 +43,15 @@ class TableStore {
   }
 
   @action
-  reset() {
+  reset(isAction) {
     this.selectedRows = [];
     this.min = this.page * this.rowsPerPage - 10;
     this.max = this.page * this.rowsPerPage - 1;
-    this.store = null;
+    if (isAction) {
+      this.store.list();
+    } else {
+      this.store = null;
+    }
   }
 
   // Select row when clicked

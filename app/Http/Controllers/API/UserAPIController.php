@@ -153,19 +153,24 @@ class UserAPIController extends AppBaseController
     public function sendInvite(Request $request)
     {
         $input = $request->all();
-        $when = now()->addSeconds(30);
 
         foreach ($input['emails'] as $email) {
-            $invite = new Invite();
-            $invite->email = $email;
-            $invite->token = str_random(32);
-            $invite->expires_at =  Carbon::now()->addDays(2);
-            $invite->save();
-            if (empty($invite)) {
-                return $this->sendError('Wasn`t able to send invite');
+            $old_invite = Invite::where('email', $email)->first();
+            if (empty($old_invite)) {
+                $invite = new Invite();
+                $invite->email = $email;
+                $invite->token = str_random(32);
+                $invite->expires_at =  Carbon::now()->addDays(2);
+                $invite->save();
+                if (empty($invite)) {
+                    return $this->sendError('Wasn`t able to send invite');
+                }
+                ProcessInviteEmails::dispatch($invite);
+            }else {
+                $old_invite->expires_at = Carbon::now()->addDays(2);
+                $old_invite->save();
+                ProcessInviteEmails::dispatch($old_invite);
             }
-            ProcessInviteEmails::dispatch($invite);
-            //Mail::to($email)->later($when, new UserInvite($invite));
         }
 
         return $this->sendResponse($input, 'Invites sent successfully');
@@ -180,6 +185,18 @@ class UserAPIController extends AppBaseController
         }
 
         return $this->sendResponse($invite->toArray(), 'Invites sent successfully');
+
+    }
+
+
+    public function listPending(Request $request) {
+        $invites = Invite::where('accepted', false)->get();
+
+        if (empty($invites)) {
+            return $this->sendError('Wasn`t able to send invite');
+        }
+
+        return $this->sendResponse($invites->toArray(), 'Invites sent successfully');
 
     }
 }

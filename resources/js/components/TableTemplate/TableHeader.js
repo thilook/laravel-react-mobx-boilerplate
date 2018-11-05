@@ -9,10 +9,13 @@ import {
   TableSortLabel,
 } from '@material-ui/core';
 
+// Import Custom components
+import { IfComponent } from '..';
+
 @observer
 class TableHeader extends Component {
   render() {
-    const { store, tableStore } = this.props;
+    const { actions, store, tableStore } = this.props;
     return (
       <TableHead>
         <TableRow>
@@ -47,6 +50,9 @@ class TableHeader extends Component {
               </TableCell>
             );
           })}
+          <IfComponent condition={actions}>
+            <TableCell>Actions</TableCell>
+          </IfComponent>
         </TableRow>
       </TableHead>
     );

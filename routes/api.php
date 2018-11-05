@@ -22,6 +22,7 @@ Route::middleware('auth:api')->group(function () {
 
     Route::resource('roles', 'RoleAPIController');
 
+    Route::get('users/invites', 'UserAPIController@listPending');
     Route::resource('users', 'UserAPIController');
     Route::post('users/invite', 'UserAPIController@sendInvite');
 });

@@ -32,12 +32,14 @@ import styles from './styles';
 @observer
 class TableTemplate extends Component {
   static propTypes = {
+    actions: PropTypes.element,
     addButtonText: PropTypes.string,
     disableAdd: PropTypes.bool,
     disableActions: PropTypes.bool,
   };
 
   static defaultProps = {
+    actions: null,
     addButtonText: null,
     disableAdd: false,
     disableActions: false,

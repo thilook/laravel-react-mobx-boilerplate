@@ -54,7 +54,9 @@
     "titles": {
       "permissions": "Permissões",
       "roles": "Funções",
-      "users": "Usuários"
+      "users": "Usuários",
+      "allUsers": "Todos usuários",
+      "pendingUsers": "Usuários pendentes"
     },
     "notifications": {
       "createSuccess": "criado com sucesso",
@@ -62,7 +64,9 @@
       "updateSuccess": "atualizado com sucesso",
       "updateError": "não foi atualizado com sucesso",
       "deleteSuccess": "deletado com sucesso",
-      "deleteError": "não foi deletado com sucesso"
+      "deleteError": "não foi deletado com sucesso",
+      "sentSuccess": "enviado com sucesso",
+      "sentError": "não foi enviado com sucesso"
     }
   }
 }

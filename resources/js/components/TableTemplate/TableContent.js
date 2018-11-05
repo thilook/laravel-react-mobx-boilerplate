@@ -3,10 +3,42 @@ import { observer } from 'mobx-react';
 
 import { Checkbox, TableCell, TableBody, TableRow } from '@material-ui/core';
 
+// Import Helper
+import { FieldFormatHelper } from '../../helpers';
+
+// Import Custom components
+import { IfComponent } from '..';
+
 @observer
 class TableContent extends Component {
+  // TODO create a separated component
+  renderCells(row, col) {
+    const { store } = this.props;
+    if (store.fields[col].tableVisible === false) {
+      return null;
+    }
+
+    switch (store.fields[col].type) {
+      case 'array':
+        return row[col].map(
+          item => `${item[store.fields[col].fieldDisplay]} / `
+        );
+      case 'date':
+        return FieldFormatHelper.dateFormat(row[col], 'MM/DD/YYYY');
+      case 'model' || 'modelAutoComplete':
+        return row[store.fields[col].relationName][
+          store.fields[col].displayField
+        ];
+      default:
+        return row[col];
+    }
+  }
+
   render() {
-    const { classes, disableActions, store, tableStore } = this.props;
+    const { actions, classes, disableActions, store, tableStore } = this.props;
+
+    var Action = actions;
+
     if (store.orderedItems.length === 0) {
       return (
         <TableBody>
@@ -24,7 +56,9 @@ class TableContent extends Component {
           row => (
             <TableRow
               hover
-              onClick={event => tableStore.handleClick(event, row)}
+              onClick={event =>
+                !actions ? tableStore.handleClick(event, row) : null
+              }
               role={!disableActions ? '' : 'checkbox'}
               aria-checked={_.includes(tableStore.selectedRows, row)}
               tabIndex={-1}
@@ -32,31 +66,24 @@ class TableContent extends Component {
               selected={_.includes(tableStore.selectedRows, row)}
               className={classes.tableRow}
             >
-              <TableCell padding="checkbox">
+              <TableCell
+                padding="checkbox"
+                onClick={event =>
+                  actions ? tableStore.handleClick(event, row) : null
+                }
+              >
                 <Checkbox checked={_.includes(tableStore.selectedRows, row)} />
               </TableCell>
-              {Object.keys(store.fields).map(col => {
-                if (store.fields[col].tableVisible === false) {
-                  return null;
-                }
-                if (
-                  store.fields[col].type === 'model' ||
-                  store.fields[col].type === 'modelAutoComplete'
-                ) {
-                  return (
-                    <TableCell key={store.fields[col].id}>
-                      {
-                        row[store.fields[col].relationName][
-                          store.fields[col].displayField
-                        ]
-                      }
-                    </TableCell>
-                  );
-                }
-                return (
-                  <TableCell key={store.fields[col].id}>{row[col]}</TableCell>
-                );
-              })}
+              {Object.keys(store.fields).map(col => (
+                <TableCell key={store.fields[col].id}>
+                  {this.renderCells(row, col)}
+                </TableCell>
+              ))}
+              <IfComponent condition={actions}>
+                <TableCell>
+                  {actions ? React.cloneElement(actions, { row }) : null}
+                </TableCell>
+              </IfComponent>
             </TableRow>
           )
         )}
