@@ -13,6 +13,13 @@ class UserInvite extends Mailable
     use Queueable, SerializesModels;
 
     /**
+     * The invite instance.
+     *
+     * @var Invite
+     */
+    public $invite;
+
+    /**
      * Create a new message instance.
      *
      * @return void

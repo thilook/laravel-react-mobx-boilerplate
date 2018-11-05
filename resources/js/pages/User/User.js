@@ -2,14 +2,25 @@ import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
 
 // Import custom components
-import { Crud } from '../../components';
+import { FormTemplate, TableTemplate } from '../../components';
+import InviteForm from './InviteForm';
 
-@inject('userListStore')
+@inject('routing', 'userListStore')
 @observer
 class User extends Component {
   render() {
-    const { match, userListStore } = this.props;
-    return <Crud store={userListStore} match={match} />;
+    const { match, routing, userListStore } = this.props;
+
+    switch (routing.location.pathname) {
+      case `/${userListStore.route}/add`:
+        return <InviteForm />;
+      case `/${userListStore.route}/edit/${match.params.id}`:
+        return (
+          <FormTemplate id={match.params.id} store={userListStore} addButtons />
+        );
+      default:
+        return <TableTemplate store={userListStore} addButtonText="Invite" />;
+    }
   }
 }
 

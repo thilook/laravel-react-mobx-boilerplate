@@ -60,7 +60,9 @@
       "createSuccess": "criado com sucesso",
       "createError": "não foi criado com sucesso",
       "updateSuccess": "atualizado com sucesso",
-      "updateError": "não foi atualizado com sucesso"
+      "updateError": "não foi atualizado com sucesso",
+      "deleteSuccess": "deletado com sucesso",
+      "deleteError": "não foi deletado com sucesso"
     }
   }
 }

@@ -37,7 +37,9 @@
       "createSuccess": "created successfully",
       "createError": "was not created successfully",
       "updateSuccess": "updated successfully",
-      "updateError": "was not updated successfully"
+      "updateError": "was not updated successfully",
+      "deleteSuccess": "deleted successfully",
+      "deleteError": "was not deleted successfully"
     }
   }
 }

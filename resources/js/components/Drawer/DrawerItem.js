@@ -23,7 +23,10 @@ class DrawerItem extends Component {
     if (item.hasSublist) {
       return (
         <section>
-          <Tooltip title={item.label} placement="right">
+          <Tooltip
+            title={!drawerStore.isOpen ? item.label : ''}
+            placement="right"
+          >
             <ListItem button onClick={() => drawerStore.collapse(item.id)}>
               <ListItemIcon>{item.icon}</ListItemIcon>
               <ListItemText
@@ -42,6 +45,7 @@ class DrawerItem extends Component {
                   key={subItem.id}
                   item={subItem}
                   isSub
+                  drawerStore={drawerStore}
                   classes={classes}
                   routing={routing}
                 />
@@ -54,7 +58,10 @@ class DrawerItem extends Component {
     }
     return (
       <section>
-        <Tooltip title={item.label} placement="right">
+        <Tooltip
+          title={!drawerStore.isOpen ? item.label : ''}
+          placement="right"
+        >
           <ListItem
             button
             className={isSub ? classes.nested : ''}

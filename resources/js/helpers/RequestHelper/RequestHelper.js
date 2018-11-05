@@ -18,7 +18,7 @@ const headers = {
 
 const axiosAuth = create({
   baseUrl: ROOT,
-  timeout: 5000,
+  timeout: 25000,
   headers,
 });
 
@@ -28,7 +28,7 @@ if (StorageHelper.localGetItem('token')) {
 
 const axiosApi = create({
   baseUrl: ROOT,
-  timeout: 5000,
+  timeout: 25000,
   headers,
 });
 

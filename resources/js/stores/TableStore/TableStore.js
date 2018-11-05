@@ -64,8 +64,9 @@ class TableStore {
   // Delete selected rows
   @action
   handleDelete = () => {
-    this.selectedRows.map(item => this.store.delete(item.id));
+    const deleteRes = this.selectedRows.map(item => this.store.delete(item.id));
     this.selectedRows = [];
+    return deleteRes;
   };
 
   // Handles edit on search (filter) input

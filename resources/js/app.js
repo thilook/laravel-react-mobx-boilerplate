@@ -6,7 +6,7 @@ import { compose } from 'recompose';
 import classNames from 'classnames';
 import { translate } from 'react-i18next';
 
-import { withStyles } from '@material-ui/core';
+import { CssBaseline, withStyles } from '@material-ui/core';
 
 // Import components
 import { AppBar, Drawer, Loading, Notification } from './components';
@@ -85,6 +85,7 @@ class App extends Component {
     if (userStore.currentUser) {
       return (
         <MuiThemeProvider theme={!uiStore.themeType ? theme : darkTheme}>
+          <CssBaseline />
           <Notification />
           <section>
             <AppBar />

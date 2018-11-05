@@ -4,9 +4,11 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Requests\API\CreateUserAPIRequest;
 use App\Http\Requests\API\UpdateUserAPIRequest;
+use App\Jobs\ProcessInviteEmails;
 use App\Models\Invite;
 use App\Models\User;
 use App\Repositories\UserRepository;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Support\Facades\Mail;
@@ -151,8 +153,33 @@ class UserAPIController extends AppBaseController
     public function sendInvite(Request $request)
     {
         $input = $request->all();
-        $invite = Invite::create($input);
+        $when = now()->addSeconds(30);
 
-        Mail::to($input->email)->send(new UserInvite($invite));
+        foreach ($input['emails'] as $email) {
+            $invite = new Invite();
+            $invite->email = $email;
+            $invite->token = str_random(32);
+            $invite->expires_at =  Carbon::now()->addDays(2);
+            $invite->save();
+            if (empty($invite)) {
+                return $this->sendError('Wasn`t able to send invite');
+            }
+            ProcessInviteEmails::dispatch($invite);
+            //Mail::to($email)->later($when, new UserInvite($invite));
+        }
+
+        return $this->sendResponse($input, 'Invites sent successfully');
+    }
+
+    public function checkInvite(Request $request) {
+        $input = $request->all();
+        $invite = Invite::find($input['token']);
+
+        if (empty($invite)) {
+            return $this->sendError('Wasn`t able to send invite');
+        }
+
+        return $this->sendResponse($invite->toArray(), 'Invites sent successfully');
+
     }
 }

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { action, observable } from 'mobx';
-import { observer } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 import i18n from 'i18next';
 
 import {
@@ -54,6 +54,7 @@ const DialogComponent = props => (
   </div>
 );
 
+@inject('notificationStore')
 @observer
 class TableToolbar extends Component {
   @observable
@@ -71,9 +72,23 @@ class TableToolbar extends Component {
 
   @action
   delete = () => {
-    const { tableStore } = this.props;
+    const { notificationStore, tableStore } = this.props;
     this.dialogClose();
-    tableStore.handleDelete();
+    Promise.all(tableStore.handleDelete())
+      .then(() => {
+        notificationStore.setNotificationSettings({
+          message: `${i18n.t('common:notifications.deleteSuccess')}`,
+          variant: 'success',
+        });
+        notificationStore.setOpen(true);
+      })
+      .catch(() => {
+        notificationStore.setNotificationSettings({
+          message: `${i18n.t('common:notifications.deleteError')}`,
+          variant: 'error',
+        });
+        notificationStore.setOpen(true);
+      });
   };
 
   render() {

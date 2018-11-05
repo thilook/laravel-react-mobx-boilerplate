@@ -32,11 +32,13 @@ import styles from './styles';
 @observer
 class TableTemplate extends Component {
   static propTypes = {
+    addButtonText: PropTypes.string,
     disableAdd: PropTypes.bool,
     disableActions: PropTypes.bool,
   };
 
   static defaultProps = {
+    addButtonText: null,
     disableAdd: false,
     disableActions: false,
   };
@@ -61,7 +63,14 @@ class TableTemplate extends Component {
   };
 
   render() {
-    const { classes, disableAdd, store, t, tableStore } = this.props;
+    const {
+      addButtonText,
+      classes,
+      disableAdd,
+      store,
+      t,
+      tableStore,
+    } = this.props;
 
     if (tableStore.isLoading) {
       return <Loading />;
@@ -76,7 +85,7 @@ class TableTemplate extends Component {
           <IfComponent condition={!disableAdd}>
             <Button size="large" variant="outlined" onClick={this.goToCreate}>
               <AddIcon className={classes.addIcon} />
-              {t('common:forms.add')}
+              {addButtonText ? addButtonText : t('common:forms.add')}
             </Button>
           </IfComponent>
         </Grid>
