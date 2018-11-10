@@ -77,7 +77,7 @@ class Login extends Component {
                       {t('common:forms.continue')} {process.env.MIX_APP_NAME}
                     </Typography>
                   </Grid>
-                  <FormTemplate store={authStore}>
+                  <FormTemplate store={authStore} basicLayout={false}>
                     <Grid container>
                       <Grid item xs={6} className={classes.alignLeft}>
                         <Button

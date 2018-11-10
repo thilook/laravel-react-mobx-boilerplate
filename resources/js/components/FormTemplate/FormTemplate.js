@@ -188,10 +188,12 @@ class FormTemplate extends Component {
           </Grid>
           <Grid item xs={12}>
             <Paper className={classes.paper}>
-              {Object.keys(store.formInfo).map(item =>
-                this.selectFieldType(item)
-              )}
-              {this.renderDefaultButtons()}
+              <form>
+                {Object.keys(store.formInfo).map(item =>
+                  this.selectFieldType(item)
+                )}
+                {this.renderDefaultButtons()}
+              </form>
             </Paper>
           </Grid>
         </Grid>
