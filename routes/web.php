@@ -11,6 +11,7 @@
 |
 */
 
+
 Route::get('/email', function () {
     $invite = App\Models\Invite::find(6);
     \App\Jobs\ProcessInviteEmails::dispatch($invite);
@@ -24,3 +25,4 @@ Route::pattern('url', '.*');
 Route::get('/{url?}', function () {
     return view('welcome');
 });
+

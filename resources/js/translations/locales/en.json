@@ -21,7 +21,8 @@
       "save": "Save",
       "selectedItems": "Selected Items",
       "search": "Search",
-      "update": "Update"
+      "update": "Update",
+      "userSettings": "User settings"
     },
     "formValidation": {
       "required": "This field is required",

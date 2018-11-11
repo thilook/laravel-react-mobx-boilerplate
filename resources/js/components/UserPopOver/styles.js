@@ -24,6 +24,17 @@ const style = theme => ({
     justifyContent: 'flex-end',
     backgroundColor: theme.palette.background.default,
   },
+  paper: {
+    position: 'absolute',
+    width: theme.spacing.unit * 90,
+    height: theme.spacing.unit * 100,
+    backgroundColor: theme.palette.background.paper,
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing.unit * 4,
+    top: '50%',
+    left: '50%',
+    transform: `translate(-50%, -50%)`,
+  },
 });
 
 export default style;

@@ -25,6 +25,7 @@ Route::middleware('auth:api')->group(function () {
     Route::get('users/invites', 'UserAPIController@listPending');
     Route::resource('users', 'UserAPIController');
     Route::post('users/invite', 'UserAPIController@sendInvite');
+    Route::post('users/change_password', 'UserAPIController@changePassword');
 });
 
 

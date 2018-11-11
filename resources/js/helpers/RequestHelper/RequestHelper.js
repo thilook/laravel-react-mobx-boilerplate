@@ -14,6 +14,10 @@ const WEB_CLIENT = process.env.MIX_CLIENT_SECRET;
 const headers = {
   Accept: 'application/json',
   'Content-Type': 'application/json',
+  'X-Requested-With': 'XMLHttpRequest',
+  'X-CSRF-TOKEN': document
+    .querySelector('meta[name="csrf-token"]')
+    .getAttribute('content'),
 };
 
 const axiosAuth = create({
@@ -32,8 +36,14 @@ const axiosApi = create({
   headers,
 });
 
-const preparePromise = (call, resolve, reject, isAxios) =>
-  call
+const preparePromise = (call, resolve, reject, isAxios) => {
+  if (StorageHelper.localGetItem('token')) {
+    axiosApi.setHeader(
+      'Authorization',
+      `Bearer ${StorageHelper.localGetItem('token')}`
+    );
+  }
+  return call
     .then(response => {
       if (response.ok || isAxios) {
         console.group(
@@ -76,6 +86,7 @@ const preparePromise = (call, resolve, reject, isAxios) =>
       // const error = RequestErrorHelper.translateError(response);
       reject(response.data);
     });
+};
 
 const requests = {
   del: url =>

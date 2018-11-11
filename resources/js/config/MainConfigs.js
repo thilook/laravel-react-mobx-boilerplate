@@ -30,4 +30,18 @@ yup.setLocale({
   },
 });
 
+yup.addMethod(yup.string, 'equalTo', function(ref, msg) {
+  return this.test({
+    name: 'equalTo',
+    exclusive: false,
+    message: msg || 'values should be equal',
+    params: {
+      reference: ref.path,
+    },
+    test(value) {
+      return value === this.resolve(ref);
+    },
+  });
+});
+
 export { i18n, yup };

@@ -174,7 +174,6 @@ class BaseStore {
 
   @action
   fillValues(res) {
-    console.log('res', res);
     Object.keys(this.values).map(option => {
       if (this.formInfo[option].type === 'select') {
         this.values[option] = res[option].map(item => ({

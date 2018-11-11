@@ -1,14 +1,4 @@
 {
-  "home": {
-    "headerTitle": "Home cabeçalho",
-    "title": "Bem vindo mensagem",
-    "introduction": "Este texto vem do i18next e é fornecido em português."
-  },
-  "page2": {
-    "headerTitle": "Página 2",
-    "title": "Título da página 2",
-    "introduction": "Este é o texto da página 2"
-  },
   "common": {
     "language": "Português",
     "currentLanguage": "A linguagem atual é",
@@ -41,7 +31,8 @@
       "selectedItems": "Itens Selecionados",
       "search": "Pesquisar",
       "update": "Atualizar",
-      "delete": "Deletar"
+      "delete": "Deletar",
+      "userSettings": "Seus dados"
     },
     "dialogs": {
       "confirmDeleteTitle": "Você tem certeza que deseja deletar?"

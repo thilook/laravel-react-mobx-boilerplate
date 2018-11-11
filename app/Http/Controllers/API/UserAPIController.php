@@ -11,6 +11,7 @@ use App\Repositories\UserRepository;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AppBaseController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use InfyOm\Generator\Criteria\LimitOffsetCriteria;
 use Prettus\Repository\Criteria\RequestCriteria;
@@ -198,5 +199,26 @@ class UserAPIController extends AppBaseController
 
         return $this->sendResponse($invites->toArray(), 'Invites sent successfully');
 
+    }
+
+    public function changePassword(Request $request)
+    {
+        $input = $request->all();
+        $user = $request->user('api');
+        if (isset($input['oldPassword'])) {
+            $check = Auth::guard('web')->attempt([
+                'email' => $user->email,
+                'password' => $input['oldPassword']
+            ]);
+
+            if ($check && isset($input['newPassword'])) {
+                $user->password = bcrypt($input['newPassword']);
+                $user->save();
+                return $this->sendResponse($user->toArray(), 'Password changed successfully');
+            }
+
+            return $this->sendError('Wrong password');
+        }
+        return $this->sendError('Password not sent');
     }
 }

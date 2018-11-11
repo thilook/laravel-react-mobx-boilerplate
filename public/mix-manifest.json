@@ -1,5 +1,9 @@
 {
     "/js/entry-server.js": "/js/entry-server.js",
     "/js/entry-client.js": "/js/entry-client.js",
-    "/css/app.css": "/css/app.css"
+    "/css/app.css": "/css/app.css",
+    "/0.09b6dfbc6e13731c53be.hot-update.js": "/0.09b6dfbc6e13731c53be.hot-update.js",
+    "/1.09b6dfbc6e13731c53be.hot-update.js": "/1.09b6dfbc6e13731c53be.hot-update.js",
+    "/0.0d054718ff9d5520a273.hot-update.js": "/0.0d054718ff9d5520a273.hot-update.js",
+    "/1.0d054718ff9d5520a273.hot-update.js": "/1.0d054718ff9d5520a273.hot-update.js"
 }
