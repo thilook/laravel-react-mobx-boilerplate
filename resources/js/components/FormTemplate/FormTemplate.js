@@ -7,6 +7,7 @@ import { translate } from 'react-i18next';
 import { Button, Grid, Paper, Typography, withStyles } from '@material-ui/core';
 
 // Import Field Types
+import EditField from './EditField';
 import SelectField from './SelectField';
 import TextField from './TextField';
 
@@ -115,6 +116,16 @@ class FormTemplate extends Component {
     const { store } = this.props;
     const item = store.formInfo[fieldName];
     switch (item.type) {
+      case 'editable': {
+        return (
+          <EditField
+            key={item.id}
+            item={item}
+            fieldName={fieldName}
+            store={store}
+          />
+        );
+      }
       case 'string': {
         return (
           <TextField

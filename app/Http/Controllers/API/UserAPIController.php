@@ -115,13 +115,17 @@ class UserAPIController extends AppBaseController
         if (empty($user)) {
             return $this->sendError('User not found');
         }
-        $roles = [];
-        foreach ($input['roles'] as $role) {
-            $r = Role::findById($role['value']);
-            array_push($roles, $r);
+
+        if (isset($input['roles'])) {
+            $roles = [];
+            foreach ($input['roles'] as $role) {
+                $r = Role::findById($role['value']);
+                array_push($roles, $r);
+            }
+
+            $user->syncRoles($roles);
         }
 
-        $user->syncRoles($roles);
 
         $user = $this->userRepository->update($input, $id);
 

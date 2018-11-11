@@ -31,7 +31,7 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import { yup } from '../../config/MainConfigs';
 
 // Import Components
-import { FormTemplate } from '..';
+import { FormTemplate, IfComponent } from '..';
 
 // Import Helpers
 import { RequestHelper } from '../../helpers';
@@ -39,7 +39,7 @@ import { RequestHelper } from '../../helpers';
 // Import Styles
 import styles from './styles';
 
-@inject('authStore', 'routing', 'uiStore', 'userStore')
+@inject('authStore', 'notificationStore', 'routing', 'uiStore', 'userStore')
 @observer
 class UserPopOver extends Component {
   @observable
@@ -50,6 +50,39 @@ class UserPopOver extends Component {
 
   @observable
   modalOption = 0;
+
+  @observable
+  storeUserInfo = {
+    formInfo: {
+      name: {
+        id: 1,
+        label: 'Name',
+        type: 'editable',
+        variant: 'text',
+        required: true,
+      },
+      email: {
+        id: 2,
+        label: 'Email',
+        type: 'editable',
+        variant: 'email',
+        required: true,
+        editable: false,
+      },
+    },
+    values: {
+      name: this.props.userStore.currentUser.name,
+      email: this.props.userStore.currentUser.email,
+    },
+    setValue: (option, value) => {
+      this.storeUserInfo.formInfo[option].error = null;
+      this.storeUserInfo.values[option] = value;
+    },
+    formValidation: yup.object().shape({
+      name: yup.string(),
+      email: yup.string(),
+    }),
+  };
 
   @observable
   storePassword = {
@@ -115,13 +148,48 @@ class UserPopOver extends Component {
     this.modalOption = val;
   };
 
+  handleInfoChange = () => {
+    const { notificationStore, userStore } = this.props;
+    this.storeUserInfo.formValidation
+      .validate(this.storeUserInfo.values, { abortEarly: false })
+      .then(() =>
+        RequestHelper.requests
+          .put(
+            `/api/users/${userStore.currentUser.id}`,
+            this.storeUserInfo.values
+          )
+          .then(res => {
+            console.log('res', res);
+            userStore.pullUser();
+            notificationStore.setNotificationSettings({
+              message: `${t('common:notifications.createSuccess')}`,
+              variant: 'success',
+            });
+            notificationStore.setOpen(true);
+          })
+          .catch(err => console.log('err', err))
+      )
+      .catch(err => {
+        err.inner.map(item => {
+          this.storeUserInfo.formInfo[item.params.path].error = item.message;
+        });
+        console.log('err', err);
+      });
+  };
+
   handlePasswordChange = () => {
+    const { notificationStore } = this.props;
     this.storePassword.formValidation
       .validate(this.storePassword.values, { abortEarly: false })
       .then(() =>
         RequestHelper.requests
           .post('/api/users/change_password', this.storePassword.values)
           .then(res => {
+            notificationStore.setNotificationSettings({
+              message: `${t('common:notifications.createSuccess')}`,
+              variant: 'success',
+            });
+            notificationStore.setOpen(true);
             console.log('res', res);
           })
           .catch(err => console.log('err', err))
@@ -186,15 +254,28 @@ class UserPopOver extends Component {
               </List>
             </Grid>
             <Grid item xs={8} style={{ paddingLeft: 50 }}>
-              <FormTemplate basicLayout={false} store={this.storePassword}>
-                <Grid container>
-                  <Grid item xs={12} style={{ textAlign: 'right' }}>
-                    <Button onClick={this.handlePasswordChange}>
-                      {t('common:forms.save')}
-                    </Button>
+              <IfComponent condition={this.modalOption === 0}>
+                <FormTemplate basicLayout={false} store={this.storeUserInfo}>
+                  <Grid container>
+                    <Grid item xs={12} style={{ textAlign: 'right' }}>
+                      <Button onClick={this.handleInfoChange}>
+                        {t('common:forms.save')}
+                      </Button>
+                    </Grid>
                   </Grid>
-                </Grid>
-              </FormTemplate>
+                </FormTemplate>
+              </IfComponent>
+              <IfComponent condition={this.modalOption === 1}>
+                <FormTemplate basicLayout={false} store={this.storePassword}>
+                  <Grid container>
+                    <Grid item xs={12} style={{ textAlign: 'right' }}>
+                      <Button onClick={this.handlePasswordChange}>
+                        {t('common:forms.save')}
+                      </Button>
+                    </Grid>
+                  </Grid>
+                </FormTemplate>
+              </IfComponent>
             </Grid>
           </Grid>
         </div>
